@@ -1,0 +1,93 @@
+{% load base_custom_filters %}
+{% load humanize %}
+<p  style="font-family: arial; font-size: 14px;">See below an invoice of the Package purchase transaction you did on EasyPR Nigeria </p>
+<blockquote style="background-color: #e8e8e8; border: thin solid #d8d8d8;padding: 7.5px; border-radius:5px;">
+	<table width="100%" style="color: #444444; background-color: #ffffff;">
+		<ul>
+		<tr>
+			<td colspan = 3 style="background-color: #012e5b; padding: 15px 15px; color: #ffffff; font-size: 18px; font-weight: bold; font-family: arial; text-align: center;"><strong>Invoice Number </strong> &nbsp; &nbsp; #{{ purchase.transaction_id }}</td>
+		</tr>
+		<tr style="font-family: arial; font-size: 14px;">
+			<td style="padding: 15px 10px; border-top: thin solid #e8e8e8; border-bottom: thin solid #e8e8e8;"><strong>Date Purchased</strong></td>
+			<td style="padding: 15px 10px; border-top: thin solid #e8e8e8; border-bottom: thin solid #e8e8e8;">{{ purchase.date_purchased }}</td>
+		</tr>
+		<tr style="font-family: arial; font-size: 14px;">
+			<td style="padding: 15px 10px;  border-bottom: thin solid #e8e8e8;"><strong>Package </strong></td>
+			<td style="padding: 15px 10px;  border-bottom: thin solid #e8e8e8;">
+			{% if purchase.package %}
+				{{ purchase.get_package_name|title }}
+			{% elif purchase.bundle %}
+				{{ purchase.bundle.name|title }}
+			{% endif %}
+			
+			</td>
+		</tr>
+		{% if purchase.package %}
+			<tr style="font-family: arial; font-size: 14px;">
+				<td style="padding: 15px 10px;  border-bottom: thin solid #e8e8e8;"><strong>Media Outreach Credit: </strong></td>
+				<td style="padding: 15px 10px;  border-bottom: thin solid #e8e8e8;">{{ purchase.media_outreach_credit }}</td>
+			</tr>
+		{% endif %}
+		<tr style="font-family: arial; font-size: 14px;">
+			<td style="padding: 15px 10px;  border-bottom: thin solid #e8e8e8;"><strong>Selected Payment Method</strong></td>
+			<td style="padding: 15px 10px;  border-bottom: thin solid #e8e8e8;">{{ pay_info.payment_method }}</td>
+		</tr>
+		<tr style="font-family: arial; font-size: 14px;">
+			<td style="padding: 15px 10px;  border-bottom: thin solid #e8e8e8;"><strong>Package Price </strong></td>
+			{% if purchase.package %}
+				<td style="padding: 15px 10px;  border-bottom: thin solid #e8e8e8;">${{ purchase.price_dollar|floatformat:2|intcomma }} / &#8358;{{ purchase.price_naira|floatformat:2|intcomma }}</td>
+			{% elif purchase.bundle %}
+				<td style="padding: 15px 10px;  border-bottom: thin solid #e8e8e8;"> &#8358;{{ pay_info.amount_paid|floatformat:2|intcomma }}</td>
+			{% endif %}
+		</tr>
+		{% if post.has_image %}
+			<tr style="font-family: arial; font-size: 14px;">
+				<td style="padding: 15px 10px;  border-bottom: thin solid #e8e8e8;"><strong>Image Publication Fee</strong></td>
+				<td style="padding: 15px 10px;  border-bottom: thin solid #e8e8e8;"> $ {{ image_fee_D|floatformat:2|intcomma }} / &#8358; {{ image_fee_N|floatformat:2|intcomma }}</td>
+			</tr>
+		{% endif %}
+		{% if purchase.package %}
+			<tr style="font-family: arial; font-size: 14px;">
+				<td style="padding: 15px 10px; border-bottom: thin solid #e8e8e8;"><strong>VAT</strong></td>
+				<td style="padding: 15px 10px; border-bottom: thin solid #e8e8e8;">${{ purchase.package.VAT_D|floatformat:2|intcomma }} / &#8358;{{ purchase.package.VAT_N|floatformat:2|intcomma }}</td>
+			</tr>
+
+			<tr style="font-family: arial; font-size: 14px;">
+				<td style="padding: 15px 10px; border-bottom: thin solid #e8e8e8;"><strong style="color:  #012e5b;">Total Amount:</strong></td>
+
+				<td style="padding: 15px 10px; border-bottom: thin solid #e8e8e8;">
+				{% if post.has_image %}
+					${{ total_D|floatformat:2|intcomma }} / &#8358;{{ total_N|floatformat:2|intcomma }}
+				{% else %}
+					${{ purchase.package.amount_payable_D|floatformat:2|intcomma }} / &#8358;{{ purchase.package.amount_payable_N|floatformat:2|intcomma }}
+				{% endif %}
+				</td>
+			</tr>
+		{% endif %}
+	</table>
+</blockquote>
+
+{% if not pay_info.payment_method == "Card Payment" %}
+	<p  style="font-family: arial; font-size: 14px;"> 
+		Pay into any of our bank account below.<br> 
+		<p  style="font-family: arial; font-size: 14px; color: red;">
+			Please note that we will only commence work on your submission after we have received a notification of your payment, this is to provide our partner media houses the necessary payments for the publication of your submision.
+		</p>
+	</p>
+	<table style="font-family: arial; font-size: 14px;">
+		<tr>
+			<td style="padding: 15px 10px; border-bottom: thin solid #e8e8e8; border-top: thin solid #e8e8e8;"><b>Diamond bank</b></td>
+			<td style="padding: 15px 10px; border-bottom: thin solid #e8e8e8; border-top: thin solid #e8e8e8;">EasyPR Nigeria 0044556677</td>
+		</tr>
+		<tr>
+			<td style="padding: 15px 10px; border-bottom: thin solid #e8e8e8;"><b>Guarantee Trust Bank</b></td>
+			<td style="padding: 15px 10px; border-bottom: thin solid #e8e8e8;">EasyPR Nigeria 0044556677</td>
+		</tr>
+	</table>
+	<p  style="font-family: arial; font-size: 14px; color: red;">
+		<strong>NB:</strong> <br> After you've made the payment, kindly send a mail with the payment details to <b><span style="color: #444444;">paycenter@easypr.ng</span> </b>
+		<br> Or &nbsp;<a href="http://easypr.ng/user/dashboard" style="text-decoration:none;">Login</a> &nbsp; into your account, select the particular submission you want to update and click "update payment" 
+	<p>
+{% endif %}
+
+<p  style="font-family: arial; font-size: 14px;">PS: Please keep this email handy for future reference.</p>

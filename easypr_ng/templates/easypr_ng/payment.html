@@ -1,0 +1,301 @@
+{% extends 'easypr_general/base.html' %}
+{% load staticfiles %}
+{% load humanize %}
+
+{% block title %}payment section{% endblock title %}
+{% block inner_content %}
+
+<div id="banner-area" class="banner-area" style="background-image:url({% static 'easypr/images/banner/payment_page.png' %})">
+		<div class="banner-text">
+     		<div class="container">
+	        	<div class="row">
+	        		<div class="col-xs-12 text-center">
+	        			<div class="banner-heading">
+	        				<h1 class="banner-title title-border-left">Select payment option</h1>
+	        				<!-- <p class="banner-desc">caption here</p> -->
+	        			</div>
+	        		</div><!-- Col end -->
+	        	</div><!-- Row end -->x
+       		</div><!-- Container end -->
+    	</div><!-- Banner text end -->
+	</div><!-- Banner area end -->
+
+<section id="main-container" class="main-container">
+	<form action="" method="post">
+	    {% csrf_token %}
+		<div class="container">
+			<div class="row">
+				<div class="col-md-1"></div>
+				<div class="col-md-10 sticky-page bg-gray" style="color:#000000;">
+					<div class="well well-default no-border-radius bg-royal text-white">
+						<h4 class="text-white">Summary </h4>
+						<hr style="margin-top:5px;" />
+						<div class="row">
+							<div class="col-md-6 bg-danger">
+							</div>
+							<div class="col-md-6" style="background-color:#gggggg; padding:15px; border-radius:5px;">
+								<div><strong>Package:<span class="pull-right text-yellow">{{ purchase.package|upper }}</span></strong></div>
+								<div><strong>Media Outreach Credit:<span class="pull-right text-yellow">{{ purchase.media_outreach_credit }}</span></strong></div>
+								<div><strong>Price:<span class="pull-right text-yellow"> $ {{ purchase.package.price_dollar|floatformat:2|intcomma }} / &#8358; {{ purchase.package.price_naira|floatformat:2|intcomma }}</span></strong></div>
+								<input type="hidden" name="amount_due_n" id="id_amount_due_n" value ="{{ purchase.package.price_naira }}">
+								<div><strong>VAT:<span class="pull-right text-yellow"> $ {{ purchase.package.VAT_D|floatformat:2|intcomma }} / &#8358; {{ purchase.package.VAT_N|floatformat:2|intcomma }}</span></strong></div>
+								{% if post.has_image %}
+									<div>
+										<strong>Image Publication Fee:<span class="pull-right text-yellow"> $ {{ image_fee_D|floatformat:2|intcomma }} / &#8358; {{ image_fee_N|floatformat:2|intcomma }}</span>
+										</strong>
+									</div>
+								{% endif %}
+								<hr style="margin-bottom: 10px;"/>
+								<div>
+									<h4>
+										<strong class="text-white">Total: 
+											<span class="pull-right text-yellow">
+												$ {{ total_amount_D|floatformat:2|intcomma }} / &#8358; {{ total_amount_N|floatformat:2|intcomma }}
+											</span>
+										</strong>
+									</h4>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- HIDDEN FORM INPUT -->
+					<input type="hidden" name="bundle_name" id = "id_purchase_ref" value="{{ purchase.transaction_id }}"  />
+					<input type="hidden" name="bundle_price" id = "id_total_amount" value="{{ total_amount_N }}"  />
+
+					<div class="well well-default no-border-radius bg-royal">
+						<h4 class="text-white">Select Payment Option </h4>
+						<hr style="margin:2px;" />
+						<div class="row">
+							<div class="col-md-6">
+								<div class="payment-box" id="debit_card" onclick='select_payment("debit_card"); makeCardPayment();'>
+									<strong class="text-danger please-wait hidden text-center">Please wait...</strong><br>
+									<img style="width: 80%" src="{% static 'easypr/images/payment/cards.png' %}" alt="Easypr Nigeria" />
+									<!-- <img class="thumbnail" src="{% static 'easypr/images/payment/verve.png' %}" alt="Easypr Nigeria" />
+									<img class="thumbnail" src="{% static 'easypr/images/payment/mastercard.png' %}" alt="Easypr Nigeria" /> -->
+									<input type="checkbox" class="hidden" name="payment-type" id="check_debit_card"/>
+									<div class="text-center pull-right">
+										<h4>Pay with debit card</h4>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="payment-box" id = "bank_deposit" onclick='return select_payment("bank_deposit");'>
+									<!-- <img class="thumbnail" src="{% static 'easypr/images/payment/visa.png' %}" alt="Easypr Nigeria" /> -->
+									<input type="checkbox" class="hidden" name="payment-type" id="check_bank_deposit" />
+									<div class="text-center">
+										<h4>Pay directly into our bank account</h4>
+										<strong class="text-danger text-center">(For clients in Nigeria Only)</strong><br/>
+										<small class="text-dark text-center">Enter details in the form provided below</small>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="payment-box" id = "bank_transfer" onclick='return select_payment("bank_transfer");'>
+									<input type="checkbox" class="hidden" name="payment-type" id="check_bank_transfer"/>
+									<div class="text-center">
+										<h4>Pay with bank transfer</h4>
+										<small class="text-dark text-center">Enter details in the form provided below</small>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+							</div>
+						</div>
+					</div>
+				</form>
+
+				<form id = "paydetails_form">
+					<span id="id_saved_status" class="text-white"></span>
+					{% csrf_token %}
+						<div class="well well-default bg-royal no-border-radius hidden" id="pay-details">
+							<div class="row text-white">
+								<div class="col-md-6" class="bg-royal">
+									<h5 class="text-white"> Enter Payment Details </h5><hr style="margin-top:20px;"/>
+									<input type="hidden" name="payment_method" id="id_payment_method" />
+									<input type="hidden" name="purchase_id" id="id_purchase_id"  value="{{ purchase.transaction_id }}" />
+									<div class="row">
+										<div class="col-md-4">
+											<strong>Teller Number: </strong>
+										</div>
+										<div class="col-md-8">
+											<input class="form-control no-border-radius bg-white" type="text" name="teller_number" id="id_teller_number" />
+										</div>
+									</div>
+									<br/>
+									<div class="row">
+										<div class="col-md-4">
+											<strong>Bank: </strong>
+										</div>
+										<div class="col-md-8">
+											<select class="form-control no-border-radius bg-white" name="bankname" id="id_bankname">
+												<option value="Diamond Bank">Diamond Bank</option>
+												<option value="GTB">Guarantee Trust Bank</option>
+											</select>
+										</div>
+									</div>
+									<br/>
+									<div class="row">
+										<div class="col-md-4">
+											<strong>Amount Paid: </strong>
+										</div>
+										<div class="col-md-8">
+											<input class="form-control no-border-radius bg-white" type="number" name="amount" id="id_amount" value="{{ total_amount_N }}" />
+										</div>
+									</div>
+									<br/>
+									<div class="row">
+										<div class="col-md-4">
+											<strong>Currency: </strong>
+										</div>
+										<div class="col-md-8">
+											<select class="form-control no-border-radius bg-white" name="currency" id="id_currency">
+												<option value="dollar">($) Dollar</option>
+												<option value="naira">(&#8358;) Naira</option>
+											</select>
+										</div>
+									</div>
+									<br/>
+									<div class="row">
+										<div class="col-md-4">
+											<strong>Date Paid: </strong>
+										</div>
+										<div class="col-md-8">
+											<input class="form-control no-border-radius bg-white" type="date" name="date_paid" id="id_date_paid" />
+										</div>
+									</div>
+									<br/>
+									<div class="row">
+										<div class="col-md-4">
+											<!-- <strong>Date Paid: </strong> -->
+										</div>
+										<div class="col-md-8">
+											<a class="btn btn-success pull-right" id="id_save_payment" onclick='return save_pay_details()' >Save Payment</a>
+
+										</div>
+									</div>
+									<br/>
+								</div>
+							</div>
+						</div>
+						<br/>
+
+						{% if purchase.ordered %}
+							<div>
+								<input type="checkbox" name="accept_t_n_c" value="{{ purchase.ordered }}" checked= "{{ purchase.ordered }}" id="id_tandc" disabled />
+								<strong class="text-yellow">&nbsp; &nbsp; Accept  <a href="{% url 'general:terms-and-conditions' %}" class="text-warning"> Terms and Conditions </a> for content submission and distribution</strong>
+							</div>
+					  	{% else %}
+						  	<div class = "hidden" id="tandc_div">
+								<input type="checkbox" name="accept_t_n_c" value="false" id="id_tandc" onclick='return  accept_TandC()' />
+								<strong class="text-yellow"> &nbsp; &nbsp; Accept <a href="{% url 'general:terms-and-conditions' %}" class="text-warning"> Terms and Conditions </a> for content submission and distribution</strong>
+							</div>
+					  	{% endif %}
+					</form>
+					<hr/>
+
+
+					<!-- PAYSTACK TEST CENTER -->
+					<form >
+
+						<!-- <button type="button" class="hidden" id="id_btn_paywithpaystack" onclick="payWithPaystack()"> Pay </button>  -->
+					</form>
+
+					<div class="row no-border-radius bg-gray">
+						<a href="{% url 'easypr_ng:payment' post.transaction_id %}" class="btn btn-primary pull-right" id="id_proceed" {% if not purchase.ordered %} disabled {% endif %}> Proceed </a>
+						<!-- <a href="{% url 'easypr_ng:confirmation' %}" class="btn btn-primary pull-right" id="id_proceed" {% if not purchase.ordered %} disabled {% endif %}> Proceed </a> -->
+						<a href="{{ previous_page }}" class="btn btn-primary pull-left"> Back </a>
+					</div>
+				</div>
+				<div class="col-md-1"></div>
+		</div><!-- Content row -->
+	</div><!-- Conatiner end -->
+</section><!-- Main container end -->
+
+{% endblock inner_content %}
+
+
+
+
+{% block inline_scripts %}
+{{ block.super }}
+<script>
+	function save_pay_details() {
+		var form = $('#paydetails_form');
+		var payment_method  =   $('#id_payment_method').val();
+		var teller_number 	=   $('#id_teller_number').val();
+		var amount_paid 	=   $('#id_amount').val();
+		var bankname 		= 	$('#id_bankname').find(':selected').attr('value');
+		var currency 		= 	$('#id_currency').find(':selected').attr('value');
+		var date_paid 		=   $('#id_date_paid').val();
+		var csrf_token      =   $('input[name="csrfmiddlewaretoken"]').val();
+		var purchase_id     =   $("#id_purchase_id").val();
+		function csrfSafeMethod(method){
+			// these HTTP methods do not require CSRF protection
+			return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+		}
+		$.ajaxSetup({
+			beforeSend: function(xhr, settings){
+				if (!csrfSafeMethod(settings.type) && !this.crossDomain){
+					xhr.setRequestHeader("X-CSRFToken", csrf_token);
+				}
+			}
+		});
+		$.ajax({
+			url: "{% url 'easypr_ng:save-pay-details' %}",
+			type: "POST",
+			data: {method:payment_method, teller:teller_number,amount:amount_paid,date:date_paid,bank:bankname,currency:currency, purchase_id:purchase_id, csrfmiddlewaretoken: csrf_token},
+			success: function(data){
+				$("#id_saved_status").html("<strong class='text-yellow'> Payment details saved!</strong>");
+				$('#pay-details').addClass('hidden');
+				$("#tandc_div").removeClass('hidden');
+			},
+			error: function(data){
+				$("#id_saved_status").html("<strong class='text-yellow'> Oops! something went wrong, please try again.</strong>");
+			}
+		})
+	}
+
+	function accept_TandC(){
+		var $this = $("#id_tandc");
+		$this.is(':checked') ? $('#id_proceed').removeAttr('disabled') : $('#id_proceed').attr('disabled',true);
+	   }
+
+
+	function makeCardPayment(){
+		$('.please-wait').removeClass('hidden');
+		// $('.page_loader').removeClass('hidden');
+		var purchase_txn_ref  =   $('#id_purchase_ref').val();
+		var csrf_token        =   $('input[name="csrfmiddlewaretoken"]').val();
+		var txn_amount        =   $('#id_total_amount').val() * 100;
+		$.ajax({
+			type: "POST",
+			url : "{% url 'easypr_ng:make-card-payment' %}",
+			data: {txn_amount:txn_amount, purchase_txn_ref:purchase_txn_ref, csrfmiddlewaretoken: csrf_token},
+			success: function(data){
+				$('.please-wait').addClass('hidden');
+				if (data.response == "True"){
+					window.location = data.auth_url;
+				} else {
+					alert(data.error_response);
+					$("#debit_card").removeClass('selected');
+					$("#check_debit_card").attr('checked', false);
+				}
+			},
+			error: function(data){
+				alert("Could Not connect to payment gateway, please check your internet connectivity.");
+			}
+		})
+	}
+</script>
+
+
+{% endblock inline_scripts %}
+
+
+
+
+
+
+

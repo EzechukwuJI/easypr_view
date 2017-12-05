@@ -1,0 +1,49 @@
+<div id= "{{ modal_Id }}" class="modal fade">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content no-border-radius bg-royal text-white">
+	      <div class="modal-header bg-warning">
+	        <button type="button" class="close text-dark" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	        <h5 class="modal-title">Please Log in to continue</h5>
+	      </div>
+	      <div class="modal-body text-center">
+
+	      	<!-- <div class="panel-body"> -->
+              	<form  action="{% url 'general:login' %}" method="POST">
+              	<input type="hidden" name="redirect_to" value="easypr_ng:bundle-plans" />
+					{% csrf_token %}
+					<div class="top-margin pull-left">
+						<label>Username/Email <span class="text-danger">*</span></label>
+						<input type="hidden" name="next" value = "{{ request.GET.next }}" />
+			            <div class="input-group">
+			                <span class="input-group-addon"><i class="fa fa-envelope-o" aria-hidden="true"></i></span>
+							{{ loginform.email }}
+			            </div>
+					</div>
+					<div class="top-margin">
+						<label>Password <span class="text-danger">*</span></label>
+			            <div class="input-group">
+			              	<span class="input-group-addon"><i class="fa fa-key" aria-hidden="true"></i></span>
+						  	{{ loginform.password }}
+			            </div>
+					</div>
+					<div class="gap-20"></div>
+					<div class="row">
+						<div class="col-lg-12">
+							<span><a href="{% url 'general:forgot-password' %}" class="pull-right text-white"> Forgot Password? </a></span>
+						</div>
+					</div>
+					<div class="gap-20"></div>
+					<input type="submit" class="btn btn-secondary no-border-radius" id="submit_modal_login_form" value="Log In" />
+				</form>
+            </div>
+            <div class="modal-footer">
+              <span class="pull-left text-white"> Don't have account yet? </span> 
+              <a href="#"  data-target ="#{{ data_target}}" data-toggle="modal" data-dismiss="modal" class="btn btn-default"> <i class="fa fa-user-plus"></i> &nbsp; Create One Here It's Free</a>
+              <!-- <a href="{% url 'general:sign-up' %}" class="btn btn-default"> <i class="fa fa-user-plus"></i> &nbsp; Create One Here It's Free</a> -->
+            </div>
+	      </div>
+	    </div><!-- /.modal-content -->
+	  </div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->

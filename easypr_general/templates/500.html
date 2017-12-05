@@ -1,0 +1,29 @@
+{% extends 'easypr_general/base.html' %}
+{% load staticfiles %}
+{% block title %}Internal Server Error{% endblock title %}
+{% block inner_content %}
+	<section id="main-container" class="main-container">
+		<div class="container">
+			<div class="row">
+				<div class="error-page text-center">
+					<div class="error-code">
+						<!-- <h3><strong>505</strong></h3> -->
+					</div>
+					<div class="error-message text-center">
+						<h3>
+							Oops... Something's not right here.<br/> 
+							<span class="text-success">It's not your fault but ours </span>
+						</h3>
+					</div>
+					<p> You can try that again, if this continues, please feel free to contact the technical team 
+						<a href="{% url 'general:contact-us' %}">here</a>
+					</p>
+					<div class="error-body">
+						<!-- Meanwhile, Our engineers have been notified and are currently working to fix this. <br> -->
+						<a href="/" class="btn btn-primary">Back to Home Page</a>
+					</div>
+				</div>
+			</div><!-- Content row -->
+		</div><!-- Conatiner end -->
+	</section><!-- Main container end -->
+{% endblock inner_content %}

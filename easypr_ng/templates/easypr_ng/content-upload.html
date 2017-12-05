@@ -1,0 +1,242 @@
+{% extends 'easypr_general/base.html' %}
+{% load staticfiles %}
+{% block title %}content upload section{% endblock title %}
+
+{% block inner_content %}
+	<div id="banner-area" class="banner-area" style="background-image:url({% static 'easypr/images/banner/press_distribution.jpg' %}); height:100px !important;">
+		<div class="banner-text">
+     		<div class="container">
+	        	<div class="row">
+	        		<div class="col-xs-12 text-center">
+	        			<div class="banner-heading">
+	        				<!-- <h1 class="banner-title title-border-left">Content Upload Section</h1> -->
+	        				<!-- <p class="banner-desc">caption here</p> -->
+	        			</div>
+	        		</div><!-- Col end -->
+	        	</div><!-- Row end -->
+       		</div><!-- Container end -->
+    	</div><!-- Banner text end -->
+	</div><!-- Banner area end -->
+	<section id="main-container" class="main-container">
+		<div class="container">
+			<div class="row">
+				<form action = "" method="post" enctype="multipart/form-data">
+					{% csrf_token %}
+					<div class="col-md-1"></div>
+					<!-- content upload panel -->
+					<div class="col-md-10 sticky-page bg-white">
+						<div>
+							<!-- <h3>Content Upload Section</h3> -->
+						</div>
+						<div class="well well-default no-border-radius" role = "Public alert">
+							<span class="text-danger">
+								<strong>PLEASE NOTE:</strong>
+							</span>
+							<br/>
+							<span class="text-primary" style="font-size:16px;"> Press release is a Public Relations material, not an advert. So, your content may not be published immediately <br/>See <a href="{% url 'general:terms-and-conditions' %}" target="blank" style="cursor:pointer">Terms and Conditions</a></span>
+
+							<!-- <a onclick = 'window.open("{% url 'general:terms-and-conditions' %}", "How It Works", "width=750,height=700,scrollbars=yes,menubar=yes,status=yes,top=10,location=false")' class="btn yellow view_label" >How It Works</a> -->
+						</div>
+						<!-- content upload form div -->
+						<div class="well well-default no-border-radius">
+							{{ form.post_title }}
+						</div>
+						<input type="hidden" value="{{ request.build_absolute_uri }}" name="previous_page">
+						<div class="well well-default no-border-radius hidden" style="color:#000000;">
+							<strong>UPLOAD IMAGES</strong>
+							<p class="text-danger">Please note that, images are priced differently and we can only guarantee publication of one image.</p>
+							<hr style ="margin-top:2px;"/>
+
+							<div class="row" role="file-upload and title section">
+								<div class="col-sm-3">
+									{% include 'snippets/file_upload.html' with file_id="image_1" %}
+								</div>
+								<div class="col-sm-3">
+									{% include 'snippets/file_upload.html' with file_id="image_2" %}
+								</div>
+								<div class="col-sm-3">
+									{% include 'snippets/file_upload.html' with file_id="image_3" %}
+								</div>
+								<div class="col-sm-3">
+									{% include 'snippets/file_upload.html' with file_id="image_4" %}
+								</div>
+							</div>
+						</div>
+
+						<div class="well well-default no-border-radius" style="color:#000000;" role = "title">
+							<div class="row">
+								<div class="col-md-6">
+									<table class="">
+										<tbody>
+											<tr>
+												<td><strong>Selected Category:</strong></td>
+												<td><strong class="text-danger">{{ package.category|title }}</strong></td>
+											</tr>
+											<tr>
+												<td><strong>Platform:</strong></strong></td>
+												<td>
+													<select name="platform" class="form-control bg-white no-border-radius" id="id_media_platform" placeholder="media platform" onchange = 'return fetch_media("id_media_platform", "selected_media")' required>
+														<option value = "">select</option>
+														{% for platform in platforms %}
+															<option value = "{{ platform.pk }}">{{ platform.name }}</option>
+														{% endfor %}
+													</select>
+												</td>
+											</tr>
+											<tr>
+												<td><strong>Sector</strong></td>
+												<td>
+													<select name = "sector" class="form-control bg-white no-border-radius" id="id_sector" placeholder ="Sector"required>
+														<option value="">select</option>
+														{% for sector in sectors %}
+															<option value = "{{ sector.pk }}">{{ sector.name }}</option>
+														{% endfor %}
+													</select>
+												</td>
+											</tr>
+											<tr>
+												<td><strong>Person to quote:</strong></td>
+												<td>
+													{{ form.person_to_quote }}
+												</td>
+											</tr>
+											<tr>
+												<td><strong>Position:</strong></td>
+												<td>{{ form.persons_position }}</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+
+								<div class="col-md-6 hidden" id ="id-select-media">
+									<strong> Select Media</strong><br/>
+									<div id="selected_media" class="bg-white item-display-box text-dark">
+										<!-- ajax populated media list -->
+									</div>
+									<br/>
+									<span class="text-danger">
+										Max Allowed: {{ package.media_outreach_credit }} med{{ package.media_outreach_credit|pluralize:"ium,ia" }}
+
+										<input type="hidden" name="max_media_credit" value ="{{ package.media_outreach_credit }}" id = "selected_package_details" pkg_long_name = "{{ package.category }} - {{ package.name|title }}" max_allowed = "{{package.media_outreach_credit }}" />
+										<a href="{% url 'easypr_ng:get-started' category item %}" ><small>Choose another package</small></a>
+									</span>
+								</div>
+							</div>
+							<p> &nbsp; </p>
+							<div class="row">
+								<div class="col-md-12">
+									{{ form.post_body }}
+									<span class="text-danger pull-right">
+										<span id="id_chars_used" class="text-danger"></span>3000 characters
+									</span>
+									<br/>
+									<input type ="submit" value = "proceed" onclick='return countTextChar("id_post_body",3000); countSelectedMedia();' class="btn btn-primary pull-right" />
+									<!-- <input type ="submit" value = "proceed" onclick='return countSelectedMedia()' class="btn btn-primary pull-right" /> -->
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-1"></div>
+				</form>
+			</div><!-- Content row -->
+		</div><!-- Conatiner end -->
+	</section><!-- Main container end -->
+{% endblock inner_content %}
+
+
+{% block inline_scripts %}
+<script type="text/javascript" src="{% static 'easypr/js/jquery.js' %}"></script>
+<script>
+
+	function fetch_media(select_input_id, div_to_populate){
+		$("#id-select-media").removeClass('hidden');
+		var media_selection_count  =  0; // set selected media house count to zero
+		$("#" + div_to_populate).html('<option value="" style="color:green;">Fetching media ...</option>');
+		var platform      = $("#" + select_input_id).find(':selected').attr('value');
+		if (platform.length == 0){
+			alert ('select a media platform');
+			return false;
+		}
+		var csrf_token = $('input[name="csrfmiddlewaretoken"]').val();
+		function csrfSafeMethod(method){
+			// these HTTP methods do not require CSRF protection
+			return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+		}
+		$.ajaxSetup({
+			beforeSend: function(xhr, settings){
+				if (!csrfSafeMethod(settings.type) && !this.crossDomain){
+					xhr.setRequestHeader("X-CSRFToken", csrf_token);
+				}
+			}
+		});
+		$.ajax({
+			url: "{% url 'easypr_ng:get-media-houses' %}",
+			type: "POST",
+			data: {media_platform: platform, csrfmiddlewaretoken: csrf_token},
+			success: function(data){
+				// $("#id-select-media").removeClass('hidden');
+				$("#" + div_to_populate).html(data);
+			},
+			error: function(data){
+				$("#" + div_to_populate).html('<option value="" style="color:#6734ee;">An error occured while fetching media! Please reload the page.</option>');
+			}
+		})
+	}
+</script>
+
+
+
+<script>
+	var media_selection_count  =  0;
+	$('body').on('click', '.selected-media-house', function(){
+		var package = $("#selected_package_details");
+		var selected_media = package.attr('pkg_long_name');
+		var max_allowed_media = package.attr('max_allowed');
+		var media_selection_count = $(".selected-media-house:checked").length;
+		if (media_selection_count > max_allowed_media){
+			var msg = "You can only select " + max_allowed_media  + " media house for " + selected_media + "\n Uncheck one or more media to make changes or choose another package";
+				alert(msg);
+				return false;
+			}
+	})
+
+	var char_count = 0
+	$("#id_post_body").on('keypress', function(){
+		char_count++;
+		$("#id_chars_used").html(char_count + " of ");
+		if (char_count > 3000){
+			alert('max character exceeded');
+			return false;
+		}
+	})
+
+
+	// function countMediaSelection(){
+	// 	alert('we are here');
+	// 	var media_selection_count = $(".selected-media-house:checked").length;
+	// 	media_selection_count > 0 ? return true; : return false;
+	// }
+</script>
+
+
+{% endblock inline_scripts %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

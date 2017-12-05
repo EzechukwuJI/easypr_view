@@ -1,0 +1,36 @@
+{% load base_custom_filters %}
+{% load staticfiles %}
+
+{% for item in posts %}
+	<div class="row post_strip text-dark {% if forloop.counter|is_even %} bg-even {% endif %}">
+		<div class="col-md-2">
+			<img class="thumbnail" src="{% if item.featured_image %}{{ item.featured_image }}{% else %}{% static 'easypr/images/icons/no-image-sm.png' %} {% endif %}" alt="easyPR Nigeria">
+		</div>
+		<div class="col-md-8">
+
+			<strong class="text-primary"><a href="#" post_id = "{{ item.pk }}" {% if item.status.lower == "new" %} class="preview-post" {% endif %}>{{ item.post_title|title }}</strong><br>
+			<small class="text-justify">{{ item.post_body|truncatewords:30 }}</small><br>
+			<div class="bg-royal text-white" style="padding:3px;"><small>Selected Media:</small> <strong>{{ item.get_media_houses|title|truncatewords:12 }}</strong></div><br>
+		</div>
+		<div class="col-md-2 text-center" style="padding-top: 50px;">
+			{% if item.status.lower == "new" %}
+				<p><a href="#" post_id = "{{ item.pk }}" title="preview" class="preview-post"><i class="fa fa-search" ></i></a>
+				{% if request.user.is_admin or request.user.is_superuser %}
+					<a href="#" post_id = "{{ item.pk }}" title="Send to media house" class="send-to-media"><i class="fa fa-newspaper-o space-left"></i></a>
+					<a href="#" post_id = "{{ item.pk }}" title="Send to Ext Editor" class="send-to-ext-editor"><i class="fa fa-external-link space-left" ></i></a>
+				{% endif %}
+				<a href="#" post_id = "{{ item.pk }}" class="text-danger reject-post" title="Reject"><i class="fa fa-trash space-left"></i></a></p>
+			{% elif item.status.lower == "sent_to_external_editor" or item.status.lower == "processing" and request.user.is_superuser %}
+				<a href="#" post_id = "{{ item.pk }}" class="publish" title="publish post"><i class="fa fa-clipboard space-left" ></i></a><br>
+			{% elif item.status.lower == "published" %}
+				<a href="{% url 'easypr_ng:news-details' item.pk item.title_slug %}" class="btn btn-sm btn-success" title="view post in newsroom">View post</a>
+			{% elif item.status.lower == "pending" %}
+				<a href="{% url 'easypr_ng:preview-content' item.transaction_id %}" class="text-success" title="continue editing"><i class="fa fa-pencil space-left" ></i></a>
+				<a href="{% url 'easypr_ng:delete-post' item.pk %}" class="text-danger delete_post" title="delete post"><i class="fa fa-trash space-left" ></i></a>
+			{% endif %}
+
+		</div>
+	</div>
+{% empty %}
+	<p>No post found.</p>
+{% endfor %}

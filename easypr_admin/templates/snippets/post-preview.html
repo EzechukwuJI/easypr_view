@@ -1,0 +1,36 @@
+{% load humanize %}
+{% load staticfiles %}
+
+	<div id="{{ modal_Id }}" class="modal fade">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content no-border-radius">
+	      <div class="modal-header bg-warning">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: #000000;">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	        <h5 class="modal-title">Preview/Edit Post</h5>
+	      </div>
+	      <div class="modal-body text-center text-black">
+	      		<!--  pay option selection form  -->
+	      		{% if request.user.is_staff or request.user.is_superuser %}
+	      			<form action="{% url 'easypr_admin:update-post' %}" method="post">
+	      		{% else %}
+	      			<form action="{% url 'easypr_ng:update-post' %}" method="post">
+	      		{% endif %}
+    				{% csrf_token %}
+    				<input type="hidden" id="is_edited" name="is_changed">
+					<input type="text" class="form-control title" name="post_title" id ="id_post_title" value="{{ post.title }}" />
+					<input type="hidden" name="post_id" id = "id_post_id" />
+					<br>
+					<textarea name = "post_body" class="form-control text-dark" id="id_post_body" value="{{ post.post_body }}" rows="17"></textarea>
+				
+			      	</div> <!-- modal body ends -->
+
+			        <div class="modal-footer">
+						<input type="submit" class="pull-right" id="id_save_changes" value="Save Changes">
+						<a href="{{ previous_page }}" data-toggle="modal" data-dismiss = "modal" id="id_discard_changes" class="btn pull-left text-danger">Discard Changes</a>
+				    </div>
+				</form>
+	    </div><!-- /.modal-content -->
+	  </div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->

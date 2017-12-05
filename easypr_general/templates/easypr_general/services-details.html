@@ -1,0 +1,57 @@
+{% extends 'easypr_general/base.html' %}
+{% load staticfiles %}
+{% block title %} {{ service.name|title }} Services{% endblock title %}
+{% block inner_content %}
+	<div id="banner-area" class="banner-area" style="background-image:url({% if service.banner %}{{ MEDIA_URL }}{{ service.banner.url }}{% endif %})">
+	<!-- <div id="banner-area" class="banner-area" style="background-image:url({% static 'easypr/images/banner/banner2.jpg' %})"> -->
+		<div class="banner-text">
+     		<div class="container">
+	        	<div class="row">
+	        		<div class="col-xs-12">
+	        			<div class="banner-heading text-center">
+	        				<!-- <h1 class="banner-title title-border-left">{{ service.name|upper }} </h1> -->
+	        				<!-- <p class="">{{ service.description|capfirst }}</p> -->
+	        			</div>
+	        		</div><!-- Col end -->
+	        	</div><!-- Row end -->
+       		</div><!-- Container end -->
+    	</div><!-- Banner text end -->
+	</div><!-- Banner area end --> 
+
+	<section id="main-container" class="main-container">
+		<div class="container">
+			<div class="row">
+				{% for item in service_list %}
+					<div class="col-md-4">
+					   <div class="ts-service-box" id="{{ item.name_slug }}">
+					      <div class="ts-service-image-wrapper">
+					         <img class="img-responsive" src="{% if item.image %}{{ item.image.url }}{% endif %}" alt="{{ item.name }} Image">
+					      </div>
+					      <div class="ts-service-info">
+					      	<div class="ts-service-icon">
+				          		<i class="fa fa-{{ item.icon_text }} text-dark"></i>
+				          		<h3>{{ item.name }}</h3>
+				        		</div>
+				        	</div><!-- Service info end -->
+				      	<div class="ts-service-box-content text-justify">
+					        <p>{{ item.description }}</p>
+					        <p>
+					        	{% if item.action_type == "select_service" %}
+					        		<a class="btn btn-easypr bg-royal" href="{% url 'easypr_ng:get-started' item.category.name_slug item.name_slug %}">
+					        			<i class="fa fa-caret-right"></i> &nbsp; {{ item.call_to_action }}</a>
+					        	{% elif item.action_type == "submit_content" %}
+					        		<a class="btn btn-easypr bg-royal" href="{% url 'easypr_ng:submit-content' item.category.name_slug item.name_slug %}">
+					        			<i class="fa fa-caret-right"></i> &nbsp; {{ item.call_to_action }}</a>
+					        	{% elif item.action_type == "request_service" %}
+					        		<a class="btn btn-easypr bg-royal" href="{% url 'easypr_ng:request-service' item.category.name_slug item.name_slug %}">
+					        			<i class="fa fa-caret-right"></i> &nbsp; {{ item.call_to_action }}</a>
+					        	{% endif %}
+		                    </p>       
+				      	</div>
+					   </div><!-- Service1 end -->
+					</div><!-- Col 1 end -->
+
+				{% endfor %}
+	</section><!-- Main container end -->
+		
+{% endblock inner_content %}

@@ -1,0 +1,9 @@
+<script>
+	$(".default").addClass('active');
+</script>
+{% for user in content_list %}
+	<p> {{ user }} </p>
+{% empty %}
+	<p>No user found</p>
+{% endfor %}
+							

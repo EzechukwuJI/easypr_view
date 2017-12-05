@@ -1,0 +1,6 @@
+{% for media in available_media %}
+	<input class = "custom-checkbox media-house selected-media-house" type="checkbox" name="media_house[]" value={{ media.pk }} /> {{ media.name }} <br/>
+{% empty %}
+	<p>No media available </p>
+{% endfor %}
+								

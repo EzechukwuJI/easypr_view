@@ -1,0 +1,187 @@
+{% extends 'easypr_general/base.html' %}
+{% load staticfiles %}
+{% load humanize %}
+{% block title %} Bespoke Marketing Bundles{% endblock title %}
+
+{% block inner_content %}
+	<div id="banner-area" class="banner-area" style="background-image:url({% static 'easypr/images/banner/marketing_bundles.jpg' %})">
+		<div class="banner-text">
+     		<div class="container">
+	        	<div class="row">
+	        		<div class="col-xs-12">
+	        			<div class="banner-heading">
+	        				<!-- <h1 class="banner-title text-center">Select From a Range of Bespoke Marketing Bundles </h1> -->
+	        			</div>
+	        		</div><!-- Col end -->
+	        	</div><!-- Row end -->
+       		</div><!-- Container end -->
+    	</div><!-- Banner text end -->
+	</div><!-- Banner area end --> 
+
+	<section id="main-container" class="main-container">
+		<div class="container">
+			<div class="row">
+				<ul class="nav nav-tabs">
+					{% for bundle in marketing_bundles %}
+						<li class="bundle-tab-spaced {% if forloop.counter == 1 %} active {% endif %}">
+							<a data-toggle="tab" href="#{{ bundle.name_slug }}">{{ bundle.name }}
+								<!-- <img class = "thumbnail bundle-image" src="{{bundle.image.url}}" alt = "EasyPR Nigeria |{{ bundle.name }}"> -->
+							</a>
+						</li>
+					{% endfor %}
+				</ul>
+				<div class="gap-10"></div>
+				<!-- tab content  -->
+				<div class ="tab-content">
+					{% for bundle in marketing_bundles %}
+						<div id= "{{ bundle.name_slug }}" class="tab-pane fade in {% if forloop.counter == 1 %} active {% endif %}">
+							<h3 class="text-primary bundle-name">{{ bundle.name }} </h3><br>
+
+							<div class="ad-banner">
+								<span class="left bg-royal">{% if not bundle.is_request %} &#8358; {{ bundle.price_N }}{% endif %}</span>
+								<span class="right bg-warning">{{ bundle.caption }}</span>
+							</div>
+
+							<div class="gap-10"></div>
+						    <div class="col-md-4">
+						    	<div class="thumbnail">
+						    		<img src="{{ bundle.image.url }}">
+						    	</div>
+						    </div>
+						    <div class="col-md-4">
+						    	<span class="bundle-highlights">Highlights</span><br>
+							    <ul class="text-primary">
+							    	{% for feature in bundle.get_features %}
+							    		<li>{{ feature|capfirst }}</li>
+							    	{% empty %}
+							    		<p>No feature found </p>
+							    	{% endfor %}
+							    </ul>
+							    {% if not bundle.is_request %}
+								    {% if not request.user.is_authenticated %}
+								    	<a href="#" class="btn btn-easypr bg-royal buy-bundle-now" pkg_id = "{{ bundle.pk }}">Buy Now</a>
+								    {% else %}
+								    	<a href="#" class="btn btn-easypr bg-royal select-payment-option" bundle_id = "{{ bundle.pk }}">Buy Now</a>
+								    {% endif %}
+								{% else %}
+									{% if not request.user.is_authenticated %}
+								    	<a class="btn btn-easypr bg-royal buy-bundle-now" href="{% url 'easypr_ng:request-service' 'marketing-bundles' bundle.name_slug %}">
+					        			<i class="fa fa-caret-right"></i> &nbsp; Request Service</a>
+								    {% else %}
+								    	<a href="#" class="btn btn-easypr bg-royal" bundle_id = "{{ bundle.pk }}">Submit Request</a>
+								    {% endif %}
+								{% endif %}
+						    </div>
+						    <div class="col-md-4"> &nbsp;</div>
+						 </div>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+	</section><!-- Main container end -->
+{% endblock inner_content %}
+
+{% block modal %}
+	{% include 'snippets/pay-option-modal.html' with modal_Id='modal-payment-form' %}
+	{% include 'easypr_snippets/login-modal.html' with modal_Id='modal-login-form' data_target="modal-signup-form" %}
+	{% include 'easypr_snippets/sign-up-modal.html' with modal_Id='modal-signup-form' data_target="modal-login-form" %}
+{% endblock modal %}
+
+{% block inline_scripts %}
+	<script type="text/javascript" src="{% static 'easypr/js/jquery.js' %}"></script>
+	<script>
+		$(".buy-bundle-now").click(function(){
+			var selected_bundle = $(this).attr('pkg_id');
+			$("#bundle-plan-id").val(selected_bundle);
+			$("#modal-login-form").modal('show');
+		});
+		$(".select-payment-option").click(function(){
+			var bundle_id  =  $(this).attr('bundle_id');
+			$.ajax({
+				url: "{% url 'easypr_ng:create_purchase_for_bundle' %}",
+				type: "GET",
+				data: {bundle_id: bundle_id},
+				success: function(data){
+					$("#id_bundle_purchase_id").val(data.purchase_id);
+					$("#id_purchase_ref").html(data.purchase_id);
+					$("#id_bundle_name").val(data.bundle_name);
+					$("#id_bundle_price").val(data.bundle_price);
+					$("#modal-payment-form").modal('show');
+				},
+				error: function(data){
+					$("#id_saved_status").html("<strong class='text-yellow'> Oops! something went wrong, please try again.</strong>");	
+				}
+			})
+		})
+	</script>
+	<script>
+		function save_pay_details() {
+			var form            =   $('#paydetails_form');
+			var payment_method  =   $('#id_payment_method').val();
+			var teller_number 	=   $('#id_teller_number').val();
+			var amount_paid 	=   $('#id_amount').val();
+			var bankname 		= 	$('#id_bankname').find(':selected').attr('value');
+			var currency 		= 	$('#id_currency').find(':selected').attr('value');
+			var date_paid 		=   $('#id_date_paid').val();
+			var csrf_token      =   $('input[name="csrfmiddlewaretoken"]').val();
+			var purchase_id     =   $("#id_bundle_purchase_id").val();
+			function csrfSafeMethod(method){
+				// these HTTP methods do not require CSRF protection
+				return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+			}
+			$.ajaxSetup({
+				beforeSend: function(xhr, settings){
+					if (!csrfSafeMethod(settings.type) && !this.crossDomain){
+						xhr.setRequestHeader("X-CSRFToken", csrf_token);
+					}
+				}
+			});
+			$.ajax({
+				url: "{% url 'easypr_ng:save-pay-details' %}",
+				type: "POST",
+				data: {method:payment_method, teller:teller_number,amount:amount_paid,date:date_paid,bank:bankname,currency:currency, purchase_id:purchase_id, csrfmiddlewaretoken: csrf_token},
+				success: function(data){
+					$("#id_saved_status").html("<strong class='text-yellow'> Payment details saved! and still Pending verification</strong>");
+					$('#pay-details').addClass('hidden');
+					$("#tandc_div").removeClass('hidden');
+				},
+				error: function(data){
+					alert(data);
+					$("#id_saved_status").html("<strong class='text-yellow'> Oops! something went wrong, please try again.</strong>");	
+				}
+			})
+		}
+		function accept_TandC(){
+			var $this = $("#id_tandc");
+			$this.is(':checked') ? $('#id_proceed').removeAttr('disabled') : $('#id_proceed').attr('disabled',true);
+		}
+	</script>
+	<script>
+		function makeCardPayment(){
+			$('.please-wait').removeClass('hidden');
+			// $('.page_loader').removeClass('hidden');
+			var purchase_txn_ref  =   $('#id_purchase_ref').html();
+			var csrf_token        =   $('input[name="csrfmiddlewaretoken"]').val();
+			var txn_amount        =   $('#id_bundle_price').val() * 100;
+			$.ajax({
+				type: "POST",
+				url : "{% url 'easypr_ng:make-card-payment' %}",
+				data: {txn_amount:txn_amount, purchase_txn_ref:purchase_txn_ref, csrfmiddlewaretoken: csrf_token},
+				success: function(data){
+					// $('.please-wait').addClass('hidden');
+					// $('.page_loader').addClass('hidden');
+					if (data.response == "True"){
+						window.location = data.auth_url;
+					} else {
+						alert(data.error_response);
+						$("#debit_card").removeClass('selected');
+						$("#check_debit_card").attr('checked', false);
+					}
+				},
+				error: function(data){
+					alert("Could Not connect to payment network, please check your network");
+				}
+			})
+		}
+	</script>
+{% endblock inline_scripts %}

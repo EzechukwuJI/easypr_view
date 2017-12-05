@@ -1,0 +1,30 @@
+{% extends 'easypr_general/base.html' %}
+{% load staticfiles %}
+
+{% block title %}media strategy planner{% endblock title %}
+
+
+
+{% block inner_content %}
+	<div id="banner-area" class="banner-area" style="background-image:url({% static 'easypr/images/banner/strategy_landing_page.png' %}); max-height:350px; min-height:500px;">
+		<div class="banner-text">
+     		<div class="container">
+	        	<div class="row">
+	        		<div class="col-xs-12">
+	        			<div class="banner-heading text-center">
+	        				<h1 class="banner-title" style="margin-bottom: 5px;"> BUILD YOUR PERSONALISED MEDIA STRATEGY</h1>
+	        				<p class="title text-white" style="font-weight: normal; font-size: 18px;">Create a customized Media strategy for your brand by answering a few questions</p>
+	        			</div>
+	        			<div class="text-center">
+	        				<h3>
+	        					<form action = "" method = "post">
+	        						<button type="submit" name="start-strategy" class="slider btn btn-secondary">Get Started</button>
+	        					</form>
+	        				</h3>
+	        			</div>
+	        		</div><!-- Col end -->
+	        	</div><!-- Row end -->
+       	</div><!-- Container end -->
+    	</div><!-- Banner text end -->
+	</div><!-- Banner area end --> 
+{% endblock inner_content %}

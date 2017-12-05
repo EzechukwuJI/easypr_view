@@ -1,0 +1,776 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+{% block meta_header %}
+<head>
+	<!-- Basic Page Needs
+	================================================== -->
+	<meta charset="utf-8">
+	<meta name="keywords" content="SME marketing, PR Newswire, press release distribution, targeting, advertising, monitoring, marketing, Africa, Media, content distribution, Nigeria" />
+	<meta name="description" content="Press release distribution, content writing and marketing, customised marketing solutions from EasyPR takes care of all your corporate and individual PR concerns for your target markets across Africa.">
+   <title>{% block title %}{% endblock title %} | EasyPR Nigeria</title>
+
+	<!-- Mobile Specific Metas
+	================================================== -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<!-- Favicons
+	================================================== -->
+	
+	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="{% static 'easypr/images/icons/144X144.png' %}">
+	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="{% static 'easypr/images/icons/72X72.png' %}">
+	<link rel="apple-touch-icon-precomposed" href="{% static 'easypr/images/icons/54X54.png' %}">
+	
+	<!-- CSS
+	================================================== -->
+	
+	<!-- Bootstrap -->
+	<link rel="canonical" href="{{ request.build_absolute_uri|urlencode }}" />
+	<link rel="stylesheet" href="{% static 'easypr/css/bootstrap.min.css' %}">
+	<!-- Template styles-->
+	<link rel="stylesheet" href="{% static 'easypr/css/style.css' %}">
+	<link rel="stylesheet" href="{% static 'easypr/css/easypr.css' %}">
+	<!-- Responsive styles-->
+	<link rel="stylesheet" href="{% static 'easypr/css/responsive.css' %}">
+	<!-- FontAwesome -->
+	<link rel="stylesheet" href="{% static 'easypr/css/font-awesome.min.css' %}">
+	<!-- Animation -->
+	<link rel="stylesheet" href="{% static 'easypr/css/animate.css' %}">
+	<!-- Owl Carousel -->
+	<link rel="stylesheet" href="{% static 'easypr/css/owl.carousel.min.css' %}">
+	<link rel="stylesheet" href="{% static 'easypr/css/owl.theme.default.min.css' %}">
+	<!-- Colorbox -->
+	<link rel="stylesheet" href="{% static 'easypr/css/colorbox.css' %}">
+	<!-- JQuery -->
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.2/modernizr.js"></script>
+	<script>(function(e,t,n){var r=e.querySelectorAll("html")[0];r.className=r.className.replace(/(^|\s)no-js(\s|$)/,"$1js$2")})(document,window,0);</script>
+	<link href="https://fonts.googleapis.com/css?family=Dosis|Lato" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+	<link rel="icon" type="image/png" href="{% static 'easypr/images/icons/32X32.png' %}">
+
+	<!-- Google analytics  -->
+	<script>
+	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+	  ga('create', 'UA-92270017-1', 'auto');
+	  ga('send', 'pageview');
+	</script>
+</head>
+{% endblock meta_header %}
+{% with user=request.user %}
+<body>
+
+<div class="body-inner">
+{% block header %}
+	<div id="top-bar" class="top-bar">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6 col-sm-6 col-xs-12 top-social"> 
+					<ul class="unstyled hidden"> <!-- remove hidden class when view is required -->
+						<li>
+							<a title="Facebook" href="#">
+								<span class="social-icon"><i class="fa fa-facebook"></i></span>
+							</a>
+							<a title="Twitter" href="#">
+								<a class="twitter-follow-button"
+									  href="https://twitter.com/easyprng">
+									Follow @Easyprng</a>
+							</a>
+							<a title="Google+" href="#">
+								<span class="social-icon"><i class="fa fa-google-plus"></i></span>
+							</a>
+							<a title="Linkdin" href="#">
+								<span class="social-icon"><i class="fa fa-linkedin"></i></span>
+							</a>
+							<a title="Rss" href="#">
+								<span class="social-icon"><i class="fa fa-rss"></i></span>
+							</a>
+						</li>
+					</ul>
+				</div> <!--/ Top social end -->
+
+				<div class="col-md-6 col-sm-6 col-xs-12 top-menu ">
+					<ul class="unstyled">
+						<li><span class="phone" >+234 809 119 9774</span></li>
+						<li class="hidden"><a href="{% url 'general:how-it-works' %}" class="btn-custom border-rounded-white" >How It Works</a></li>
+						{% if user.is_authenticated %}
+							<li><a href="{% url 'general:logout' %}"><i class="fa fa-sign-out"> </i> Logout</a></li>
+						{% else %}
+							<li><a href="{% url 'general:login' %}"> Login</a></li>
+							<li><a href="{% url 'general:sign-up' %}" class="btn-orange btn-custom" ><i class="fa fa-user-plus"> </i> SIGN UP</a></li>
+						{% endif %}
+					</ul>
+				</div><!--/ Top menu end -->
+			</div><!--/ Content row end -->
+		</div><!--/ Container end -->
+	</div><!--/ Topbar end -->
+
+	<!-- Header start -->
+	<header id="header" class="header-white">
+		<div class="container">
+			<div class="row">
+				<div class="navbar-header">
+					<div class="logo">
+		                <a href="{% url 'general:homepage' %}">
+		                	<img src="{% static 'easypr/images/logo/easyprlogo.png' %}" alt="EasyPR Nigeria logo">
+		                </a>
+	         		</div><!-- logo end -->
+				</div>
+				<div class="site-nav-inner">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+				        <span class="sr-only">Toggle navigation</span>
+				        <span class="icon-bar"></span>
+				        <span class="icon-bar"></span>
+				        <span class="icon-bar"></span>
+	    			</button>
+	    			<nav class="collapse navbar-collapse navbar-responsive-collapse navbar-right">
+	    				<ul class="nav navbar-nav">
+
+						   <li class="dropdown">
+			                  <a href="{% url 'general:homepage' %}"><i class="fa fa-home link-icon text-warning"></i> &nbsp; Home</a>
+			               </li>
+
+			               <li class="dropdown">
+			                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cart-plus link-icon text-warning"></i> &nbsp; Product &amp; Services 
+			                  </a>
+							   <ul class="dropdown-menu feature-link-ul" role="menu">
+							   		<div class="row menu-board bg-royal">
+							   			<!-- left panel -->
+							   			<div class="col-md-7 bg-white feature-links">
+							   				<!-- <div class="row"> -->
+							   					<div class="col-md-12">
+							   						<div class="row feature-row">
+							   							<div class="col-md-6 feature-list">
+							   								<a href="{% url 'easypr_ng:service-details' 'press-release-distribution' %}" class="header-link">Press Distribution</a>
+							   								<ul>
+							   									<li><a href="{% url 'easypr_ng:service-details' 'press-release-distribution' %}#press-release">Press Release</a></li>
+							   									<li><a href="{% url 'easypr_ng:service-details' 'press-release-distribution' %}#news-features">News Features</a></li>
+							   									<li><a href="{% url 'easypr_ng:service-details' 'press-release-distribution' %}#photo-news">Photo-News</a></li>
+							   									<li><a href="{% url 'easypr_ng:service-details' 'press-release-distribution' %}">Request Interviews</a></li>
+							   									<!-- <a href="{% url 'easypr_ng:service-details' 'press-release-distribution' %}" class="why-link hidden">Why Choose EasyPR Press Distribution</a> -->
+							   								</ul>
+							   							</div>
+
+							   							<div class="col-md-6 feature-list">
+							   								<a href="{% url 'easypr_ng:service-details' 'advertising' %}" class="header-link">Advertising</a>
+							   								<ul>
+							   									<li><a href="{% url 'easypr_ng:service-details' 'advertising' %}#Newpapers&amp;Magazines">Newpapers/Magazines</a></li>
+							   									<li><a href="{% url  'easypr_ng:service-details' 'advertising' %}#Radio">Radio</a></li>
+							   									<li><a href="{% url 'easypr_ng:service-details' 'advertising' %}#TV">TV</a></li>
+							   									<li><a href="{% url 'easypr_ng:service-details' 'advertising' %}#scripting&amp;story-boarding">Scripting/Story-Boarding</a></li>
+							   									<li><a href="{% url 'easypr_ng:service-details' 'advertising' %}#Audio/Visual-content-production">Audio/Visual Content Production</a></li>
+							   									<!-- <a href="{% url 'easypr_ng:service-details' 'advertising' %}" class="why-link hidden">Why Choose EasyPR Advertising</a> -->
+							   								</ul>
+							   							</div>
+							   						</div>
+							   						
+							   						<div class="row feature-row">
+							   							<div class="col-md-6 feature-list">
+							   								<a href="{% url 'easypr_ng:service-details' 'content-writing-and-marketing' %}" class="header-link">Content Marketing</a>
+							   								<ul>
+							   									<li><a href="{% url 'easypr_ng:service-details' 'content-writing-and-marketing' %}#press-release">Press/Release</a></li>
+							   									<li><a href="{% url 'easypr_ng:service-details' 'content-writing-and-marketing' %}#feature-articles">Feature Articles</a></li>
+							   									<li><a href="{% url 'easypr_ng:service-details' 'content-writing-and-marketing' %}#speeches">Speeches</a></li>
+							   									<li><a href="{% url 'easypr_ng:service-details' 'content-writing-and-marketing' %}#product-reviews">Product Reviews</a></li>
+							   									<li><a href="{% url 'easypr_ng:service-details' 'content-writing-and-marketing' %}#content-marketing">Content Marketing</a></li>
+							   									<!-- <a href="{% url 'easypr_ng:service-details' 'content-writing-and-marketing' %}" class="why-link hidden">Why Choose EasyPR Content Marketing</a> -->
+							   								</ul>
+							   							</div>
+
+							   							<div class="col-md-6 feature-list">
+							   								<a href="{% url 'easypr_ng:service-details' 'sme-start-up-toolkit' %}" class="header-link">SME Start-Up Toolkit</a>
+							   								<ul>
+							   									<li><a href="{% url 'easypr_ng:service-details' 'sme-start-up-toolkit' %}#Brand-Design-and-logo">Brand Design &amp; Logo</a></li>
+							   									<li><a href="{% url 'easypr_ng:service-details' 'sme-start-up-toolkit' %}#Go-to-market-Strategy-and-Consulting">Go-to-market Strategy/Consultancy</a></li>
+							   									<li><a href="{% url 'easypr_ng:service-details' 'sme-start-up-toolkit' %}#Brand-Collaterals">Brand Collaterals</a></li>
+							   									<li><a href="{% url 'easypr_ng:service-details' 'sme-start-up-toolkit' %}#Website-Development">Website Development</a></li>
+							   									<!-- <a href="#" class="why-link hidden">Why Choose EasyPR Start-Up Toolkit?</a> -->
+							   								</ul>
+							   							</div>
+							   						</div>
+							   						
+							   						<!-- <div class="gap-10"></div> -->
+
+							   						<div class="row feature-row">
+							   							<div class="col-md-6 feature-list">
+							   								<a href="{% url 'easypr_ng:service-details' 'sales-and-marketing' %}" class="header-link">Sales &amp; Marketing</a>
+							   								<ul>
+							   									<li><a href="{% url 'easypr_ng:service-details' 'sales-and-marketing' %}#Blogger-Distribution">Blogger Distribution</a></li>
+							   									<li><a href="{% url 'easypr_ng:service-details' 'sales-and-marketing' %}#Social-Media-Influencing">Social Media Influencing</a></li>
+							   									<li><a href="{% url 'easypr_ng:service-details' 'sales-and-marketing' %}#Social-Media-Ads">Social Media Ads</a></li>
+							   									<li><a href="{% url 'easypr_ng:service-details' 'sales-and-marketing' %}#Digital-marketing-bundles">Digital Marketing Bundles</a></li>
+							   									<!-- <a href="{% url 'easypr_ng:service-details' 'sales-and-marketing' %}" class="why-link hidden">Why Choose EasyPR Sales &amp; Marketing</a> -->
+							   								</ul>
+							   							</div>
+
+							   							<div class="col-md-6 feature-list">
+							   								<a href="{% url 'easypr_ng:service-details' 'events-bureau' %}" class="header-link">Events Bureau</a>
+							   								<ul>
+							   									<li><a href="{% url 'easypr_ng:service-details' 'sales-and-marketing' %}#Event-Concept-And-Management">Event Concept/Management</a></li>
+							   									<li><a href="{% url 'easypr_ng:service-details' 'sales-and-marketing' %}#Conference-And-Seminar-Delegate">Conference/Seminar Delegate Bureau</a></li>
+							   									<li><a href="{% url 'easypr_ng:service-details' 'sales-and-marketing' %}#Conference-Bureau">Sponsorship Bureau</a></li>
+							   									<li><a href="{% url 'easypr_ng:service-details' 'sales-and-marketing' %}#Speaker-Bureau">Speaker Bureau</a></li>
+							   									<!-- <a href="{% url 'easypr_ng:service-details' 'sales-and-marketing' %}" class="why-link hidden">Why Choose EasyPR Events Bureau</a> -->
+							   								</ul>
+							   							</div>
+							   						</div>
+
+							   						<div class="gap-40 strategy-spacing"></div>
+
+							   						<div class = "row text-center nav-strategy-link">
+									   					<!-- <div class="col-sm-12"> -->
+									   						<a href="{% url 'easypr_ng:strategy-planner-intro' %}" class="btn btn-easypr btn-warning bg-royal"><small>NOT SURE? <br/>FIND THE RIGHT STRATEGY FOR YOU </small></a>
+									   					<br/>
+									   				</div>
+									   				<div class="gap-20 strategy-spacing"></div>
+							   					</div>
+							   				<!-- </div> -->
+							   			</div>
+
+							   			<!-- right image tile panel -->
+							   			<div class="col-md-5 text-center image-tiles">
+							   				<strong class="text-white pull-left">OR Select from our <span class="text-warning">BESPOKE</span> plans </strong>
+							   				<div class="gap-10"></div>
+
+							   				<div class="row"> <!-- new row -->
+							   					{% for bundle in request.marketing_bundles %}
+								   					<div class="col-md-6" style="margin-bottom: 10px;">
+								   						<a href="{% url 'easypr_ng:bundle-plans' %}">
+															<img class="thumbnail" src="{% if bundle.thumbnail %}{{ bundle.thumbnail.url }}{% else %}{% static 'easypr/images/icons/no-image-sm.png' %}{% endif %}" alt="EasyPR Nigeria {{ bundle.name }}" />
+														</a>
+								   					</div>
+								   				{% endfor %}
+								   			</div>
+
+							   				<!-- <div class="gap-10"></div> -->
+							   				<div class = "row">
+							   					<div class="col-sm-12">
+							   						<a href="{% url 'easypr_ng:bundle-plans' %}" class="btn btn-easypr btn-warning">See More </a>
+							   					</div>
+							   				</div>
+
+							   			</div> <!-- col 6 ends -->
+							   		</div>
+			                   </ul>
+			               </li>
+
+			               <li class="dropdown">
+			                  <a href="{% url 'easypr_ng:newsroom' %}"><i class="fa fa-microphone link-icon text-warning"></i> &nbsp; Newsroom</a>
+			               </li>
+
+						   <li class="dropdown">
+			                  <a href="{% url 'general:about-us' %}"><i class="fa fa-info-circle link-icon text-warning"></i> &nbsp;About</a>
+			               </li>
+
+			               <li class="dropdown hidden">
+			                  <a href=" url 'general:blog' %}"><i class="fa fa-newspaper-o link-icon text-warning"></i> &nbsp;Blog</a>
+			               </li>
+
+			               <li class="dropdown">
+			                  <a href="{% url 'general:contact-us' %}"><i class="fa fa-university link-icon text-warning"></i> &nbsp;Contact</a>
+			               </li>
+
+			               {% if user.is_authenticated %}
+			               		{% if not user.is_staff %}
+				               		<li class="dropdown">
+				               			<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user link-icon text-warning"></i> &nbsp; My Account</a>
+				               			<ul class="dropdown-menu" role="menu">
+				               			   <li><a href="{% url 'easypr_ng:user-dashboard' 'my-submissions' %}">Dashboard</a></li>
+				               			   <li><a href="{% url 'easypr_ng:user-dashboard' 'archive' %}">Archive</a></li>
+				               			   <li><a href="{% url 'easypr_ng:user-dashboard' 'analytics' %}">Analytics</a></li>
+				               			   <li><a href="{% url 'easypr_ng:user-dashboard' 'profile' %}">Profile</a></li>
+				               			   <li><a href="{% url 'easypr_ng:user-dashboard' 'subscription' %}">Subscription</a></li>
+				               			   <li><a href="{% url 'easypr_ng:user-dashboard' 'settings' %}">Settings</a></li>
+				               			</ul> 
+				               		</li>
+				               	{% else %}
+				               		<li class="dropdown">
+				               			<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user link-icon text-warning"></i> &nbsp; Dashboard</a>
+				               			<ul class="dropdown-menu" role="menu">
+				               			   <li><a href="{% url 'easypr_admin:admin-dashboard' 'submissions' %}">Submissions</a></li>
+				               			   <li><a href="{% url 'easypr_admin:admin-dashboard' 'user-manager' %}">User Manager</a></li>
+				               			   <li><a href="{% url 'easypr_admin:admin-dashboard' 'content-manager' %}">Content Manager</a></li>
+				               			   <li><a href="{% url 'easypr_admin:admin-dashboard' 'blog-manager' %}">Blog Manager</a></li>
+				               			   <li><a href="{% url 'easypr_admin:admin-dashboard' 'affiliate-manager' %}">Affiliate Manager</a></li>
+				               			   <li><a href="{% url 'easypr_admin:admin-dashboard' 'analytics' %}">Analytics</a></li>
+				               			   <li><a href="{% url 'easypr_admin:admin-dashboard' 'accounts-manager' %}">Accounts Manager</a></li>
+				               			</ul> 
+				               		</li>
+				               	{% endif %}
+			               	{% endif %}
+			               <!-- search -->
+			               <li class="dropdown">
+			                  <a id = "id_search" onclick = 'return show_search_div()'><i class="fa fa-search search text-center"></i></a>
+			                  <!-- <a href=" url 'general:contact-us' %}" class=""><i class="fa fa-search search text-center"></i></a> -->
+			               </li>
+		               </ul><!--/ Nav ul end -->
+	    			</nav><!--/ Collapse end -->
+				</div><!-- Site nav inner end --><br/>
+				<div class="col-md-3 search-box hidden" id="search-box">
+            		<form action="#" method="post" id="search-form" class="newsletter-form">
+            			{% csrf_token %}
+						<div class="form-group">
+							<input type="text" name="search-str" id="search-input" class="form-control form-control-lg text-dark" placeholder="search here" autocomplete="on">
+							<button class="btn btn-primary">search</button>
+						</div>
+					</form>
+            	</div>
+			</div><!-- Row end -->
+		</div><!-- Container end -->
+	</header><!--/ Header end -->
+
+
+
+
+
+	<div class="page_loader hidden">
+		<strong class="text-danger please-wait hidden text-center">Please wait...</strong>
+	</div>
+	{% if messages %}
+		<div class="row">
+			{% for msg in messages %}
+				<div id = "msg-div" class="col-md-12 bg-{{ msg.level_tag }}" style="padding: 20px 40px;">
+					<span class="pull-right" style="cursor:pointer;" onclick='return hide_div("msg-div")'>
+						<i class="fa fa fa-times"></i></span>
+					<strong>{{ msg }}</strong> 
+				</div>
+			{% endfor %}
+		</div>
+	{% endif %}
+{% endblock header %}
+
+{% block inner_content %}
+	
+	<div id="box-slide" class="owl-carousel owl-theme page-slider">
+		<div class="item" style="background-image:url({% static 'easypr/images/slider-main/slider4.jpg' %});background-size:cover;">
+			<div class="container">
+				<!-- <div class="row">
+					<div class="col-md-12">
+						<h2 class="box-slide-title">Helping You</h2>
+						<h6 class="box-slide-sub-title">Take Care of all your individual and corporate PR concerns</h6>	
+					</div>
+				</div> -->
+				<div class="box-slider-content text-center" >
+					<div class="box-slider-text" style="background-color: rgba(253, 165, 4, 0.7);">
+						<!-- <h2 class="box-slide-title">Helping You</h2> -->
+						<!-- <h6 class="box-slide-sub-title">Take Care of all your individual and corporate PR concerns</h6>	 -->
+	                	<!-- <p class="box-slide-description">You don't need a whole department to take care of your PR concerns. Let us do it for you on a pay as you use basis, On any media of your choice.</p> -->
+	                	<p> &nbsp; </p>
+	                	<p> &nbsp; </p>
+	                	<p>
+		                   	<a href = "{% url 'easypr_ng:service-details' 'press-release-distribution' %}" class="slider btn btn-primary">SUBMIT YOUR CONTENT</a>
+		                   	<a href="{% url 'easypr_ng:strategy-planner-intro' %}" class="slider btn btn-secondary bg-orange strategy-btn">Find The Right PR Strategy For Your Brand</a>
+	                   </p>	 
+					</div>    
+        		</div>
+			</div>
+		</div><!-- Item 1 end -->
+
+		<div class="item" style="background-image:url({% static 'easypr/images/slider-main/slider2.jpg' %})">
+			<div class="container">
+				<div class="box-slider-content">
+					<div class="box-slider-text">
+					<p> &nbsp; </p>
+                	<p>
+                		<a href = "#packages" class="slider btn btn-primary">GET STARTED</a>
+                   		<!-- <a href="#packages" class="slider btn btn-primary">Our Services</a> -->
+                   </p>	 
+					</div>    
+        		</div>
+			</div>
+		</div><!-- Item 2 end -->
+
+		<div class="item" style="background-image:url({% static 'easypr/images/slider-main/slider3.jpg' %})">
+			<div class="container">
+				<div class="box-slider-content">
+					<div class="box-slider-text">
+						<!-- <h2 class="box-slide-title">Meet Our Advisor</h2> -->
+						<!-- <h3 class="box-slide-sub-title">Get Affordable Advice</h3>	 -->
+                	<!-- <p class="box-slide-description">You have ideas, goals, and dreams. We have a culturally diverse, forward thinking team looking for talent like.</p> -->
+                	<p> &nbsp; </p>
+                	<p class="pull-right">
+                   	<!-- <a href="#" class="slider btn btn-primary">Consultation</a> -->
+                   		<a href="{% url 'easypr_ng:bundle-plans' %}" class="slider btn btn-secondary bg-orange">Start Here</a>
+                   </p>	 
+					</div>    
+        		</div>
+			</div>
+		</div><!-- Item 3 end -->
+
+		<div class="item" style="background-image:url({% static 'easypr/images/slider-main/slider1.jpg' %})">
+			<div class="container">
+				<div class="box-slider-content">
+					<div class="box-slider-text">
+						<!-- <h2 class="box-slide-title">Meet Our Advisor</h2> -->
+						<!-- <h3 class="box-slide-sub-title">Get Affordable Advice</h3>	 -->
+                	<!-- <p class="box-slide-description">You have ideas, goals, and dreams. We have a culturally diverse, forward thinking team looking for talent like.</p> -->
+                	<p> &nbsp; </p>
+                	<p class="pull-right">
+                   	<!-- <a href="#" class="slider btn btn-primary">Consultation</a> -->
+                   		<a href="{% url 'easypr_ng:bundle-plans' %}" class="slider btn btn-secondary bg-orange">Get Started</a>
+                   </p>	 
+					</div>    
+        		</div>
+			</div>
+		</div><!-- Item 3 end -->
+	</div><!-- Owl carousel -->
+
+	{% block bouquets %}
+		
+	{% endblock bouquets %}
+
+	<section id="ts-service-area" class="ts-service-area" style= "background-image:url({% static 'easypr/images/banner/who_we_are.png' %}); border-top: 2px solid orange; border-bottom: 2px solid orange;">
+	<!-- <section id="ts-service-area" class="ts-service-area" style= "background-color: #666666 !important; border-top: 2px solid orange; border-bottom: 2px solid orange;"> -->
+		<div class="container">
+			<div class="row text-center">
+				<h2 class="title-border text-white">Lets help you
+					<span class="text-white">Build Your Brand</span>
+				</h2>
+			</div><!--/ Title row end -->
+			<div class="row">
+				<div class="col-md-4">
+					<div class="ts-service-box text-center">
+			        	<div class="ts-service-box-icon">
+			          		<img src="{% static 'easypr/images/icons/brand-promotion.png' %}" />
+			        	</div>
+			        	<div class="ts-service-box-info">
+				          	<h3><a href="#" class="text-white">Content Writing</a></h3>
+				          	<p>We boast of one of the most competent content writing team in Africa with strategic affiliate partners of brand writers from different media across the three different markets that we operate in. Why not take advantage of our services today by reaching out to us for your content writing including product reviews, institutional branding, support features, etc. </p>
+				        </div>
+			      	</div>
+				</div>
+
+				<div class="col-md-4">
+					<div class="ts-service-box text-center">
+			        	<div class="ts-service-box-icon">
+			          		<img src="{% static 'easypr/images/icons/general media services.png' %}" />
+			        	</div>
+			        	<div class="ts-service-box-info">
+				          	<h3><a href="#" class="text-white">Press Release Syndication</a></h3>
+				          	<p>
+				          		Our services also entail writing press releases and syndicating to our vast network of contacts across the markets we operate in. We know the platforms that will sell that your product and when exactly that content should be placed.
+				          	</p>
+				        </div>
+			      	</div><!-- Service 2 end -->
+				</div>
+
+				<div class="col-md-4">
+					<div class="ts-service-box text-center">
+			        	<div class="ts-service-box-icon">
+			          		<img src="{% static 'easypr/images/icons/marketing consulting.png' %}" />
+			        	</div>
+			        	<div class="ts-service-box-info">
+				          	<h3><a href="#" class="text-white">Media Relations Consulting</a></h3>
+				          	<p>Today, growth in different media has produced the need for tailored and specialised handling of messages. Television, email, radio, print, social media name just a few of the areas companies have to be sure to have presence in each of these media.</p>
+				        </div>
+			      	</div>
+				</div>
+			</div>
+			<!-- bottom service row -->
+			<div class="row">
+				<div class="col-md-4">
+					<div class="ts-service-box text-center">
+			        	<div class="ts-service-box-icon">
+			          		<img src="{% static 'easypr/images/icons/multimedia-marketing.png' %}" />
+			        	</div>
+			        	<div class="ts-service-box-info">
+				          	<h3><a href="#" class="text-white">Brand Promotion</a></h3>
+				          	<p>EasyPR projects brand images and improves perception by creating and managing brand identity and. We help you build positive brand perception, which triggers brand awareness, adoption and sales.</p>
+				        </div>
+			      	</div>
+				</div>
+
+				<div class="col-md-4">
+					<div class="ts-service-box text-center">
+			        	<div class="ts-service-box-icon">
+			          		<img src="{% static 'easypr/images/icons/performance-management.png' %}" />
+			        	</div>
+			        	<div class="ts-service-box-info">
+				          	<h3><a href="#" class="text-white">General Media Services</a></h3>
+				          	<p>EasyPR provides all round marketing and media relations services as we also help clients plan and implement branding strategies. Do you need a hand in printing those branding materials, and organise the product launch and activation, EasyPR’s services is what you need.</p>
+				        </div>
+			      	</div>
+				</div>
+
+				<div class="col-md-4">
+					<div class="ts-service-box text-center">
+			        	<div class="ts-service-box-icon">
+			          	<img src="{% static 'easypr/images/icons/sme-marketing.png' %}" />
+			        	</div>
+			        	<div class="ts-service-box-info">
+				          	<h3><a href="#" class="text-white">Advertising</a></h3>
+				          	<p>EasyPR gets your brand out there through various advertising channels, depending on target market. From traditional to digital channels, we ensure that your brand gets the publicity and exposure that it demands to reach target market. We also offer free consultancy on advertising</p>
+				        </div>
+			      	</div>
+				</div>
+			</div>
+		</div><!--/ Container end -->
+	</section><!-- Service end -->
+
+	{% if testimonials %}
+	<section id="testimonial" class="testimonial">
+		<div class="container">
+			<div class="row text-center">
+				<h3 class="title-border">
+					We Give Trusts
+					<span>Testimonials</span>
+				</h3>
+			</div><!-- Title row end -->
+
+			<div class="row">
+				<div id="testimonial-slide" class="owl-carousel owl-theme testimonial-slide">
+				{% for item in testimonial %}
+					<div class="item">
+					     <div class="quote-item">
+					         <span class="quote-text">
+					           {{ item.comment }}
+					         </span>
+					         <div class="quote-item-footer">
+					         {% if item.persons_image %}
+					         	<img class="testimonial-thumb" src="{{ item.image.url }}" alt="easyPR Nigeria testimonial">
+					         {% endif %}
+					         	<div class="quote-item-info">
+					         		<span class="quote-author">{{ item.posted_by|title }}</span>
+					         		{% if item.persons_position %}
+						         		<span class="quote-subtext">{{ item.persons_position|title }} </span>
+						         	{% endif %}
+						         	{% if item.persons_company %}
+						         		<span class="quote-subtext">{{ item.persons_company|title }} </span>
+						         	{% endif %}
+						         
+					         	</div>
+					         </div>
+						</div><!-- Quote item end -->
+					</div><!--/ Item 1 end -->
+				{% endfor %}
+			</div><!--/ Testimonial carousel end-->
+		</div><!--/ Content row end -->
+
+	</div><!--/ Container end -->
+</section><!--/ Testimonial end -->
+{% endif %}
+{% block latest-news %}
+		
+{% endblock latest-news %}
+	{% block media-partners %}
+	   <!-- Partners start -->
+		<section id="partners-area" class="partners-area">
+			<div class="container">
+				<div class="row text-center">
+					<h3 class="title-border">
+						<!-- We Love Clients -->
+						<span> Loved By </span>
+					</h3>
+				</div> <!-- Title row end -->
+
+				<div class="row">
+			      <div id="partners-carousel" class="col-sm-12 owl-carousel owl-theme text-center partners">
+			        <figure class="item partner-logo">
+			          <a href="#">
+			            <img class="img-responsive" src="{% static 'easypr/images/clients/concept-group.png' %}" alt="EasyPR Nigeria Clients">
+			          </a>
+			        </figure>
+
+			        <figure class="item partner-logo">
+			          <a href="#">
+			            <img class="img-responsive" src="{% static 'easypr/images/clients/hotelsng.jpg' %}" alt="EasyPR Nigeria clients">
+			          </a>
+			        </figure>
+
+			        <figure class="item partner-logo">
+			          <a href="#">
+			            <img class="img-responsive" src="{% static 'easypr/images/clients/mattobell.jpeg' %}" alt="EasyPR Nigeria clients">
+			          </a>
+			        </figure>
+
+			        <figure class="item partner-logo">
+			          <a href="#">
+			            <img class="img-responsive" src="{% static 'easypr/images/clients/ng-ride.jpg' %}" alt="EasyPR Nigeria clients">
+			          </a>
+			        </figure>
+
+			        <figure class="item partner-logo">
+			          <a href="#">
+			            <img class="img-responsive" src="{% static 'easypr/images/clients/printivo.png' %}" alt="EasyPR Nigeria clients">
+			          </a>
+			        </figure>
+
+			        <figure class="item partner-logo">
+			          <a href="#">
+			            <img class="img-responsive" src="{% static 'easypr/images/clients/logo6.jpg' %}" alt="EasyPR Nigeria clients">
+			          </a>
+			        </figure>
+			      </div><!--/ Owl carousel end -->
+		    	</div><!--/ Content row end -->
+			</div><!--/ Container end -->
+		</section><!--/ Partners end -->
+	{% endblock media-partners %}
+{% endblock inner_content %}
+
+{% block footer %}
+	<footer id="footer" class="footer">
+		<div class="footer-main">
+			<div class="container">
+				<div class="row">
+
+					<div class="col-md-3 col-sm-12 footer-widget footer-about">
+						<h3 class="widget-title">About EasyPR</h3>
+						<p class="text-justify"> EasyPR is an online based marketing and media content distribution platform. We basically offer marketing services and provide access to hundreds of newspapers and online news publishing platforms across Africa. On easyPR platform, companies and individuals can implement marketing strategies including placing contents in the media by submitting media contents such as Press releases ... <a href="{% url 'general:about-us' %}"> Continue</a> 
+						</p>
+						<!-- <div class="gap-10"></div> -->
+						<!-- <p><a href="{% url 'general:about-us' %}" class="btn btn-primary">Read More</a></p> -->
+					</div><!-- Col end -->
+
+					<div class="col-md-3 col-sm-12 footer-widget">
+						<h3 class="widget-title">Quick Links</h3>
+
+						<ul class="list-arrow">
+							<li><a href="{% url 'general:faq' %}">FAQs</a></li>
+							<li><a href="{% url 'general:terms-and-conditions' %}">T &amp; C</a></li>
+							<li><a href="{% url 'easypr_ng:newsroom' %}">Newsroom</a></li>
+							<li><a href="{% url 'general:contact-us' %}">Contact</a></li>
+							<li><a href="#">Blog</a></li>
+							<li><a href="{% url 'general:careers' %}">Careers</a></li>
+						</ul>
+					</div><!-- Col end -->
+
+					<div class="col-md-3 col-sm-12 footer-widget">
+						<h3 class="widget-title">Stay In Touch</h3>
+						<div class="newsletter-introtext">
+							Subscribe to our newsletters and receive news about our discounts.
+						</div>
+						<form action="{% url 'general:mailing-list-subscription' %}" method="post" id="newsletter-form" class="newsletter-form">
+						{% csrf_token %}
+							<div class="form-group">
+								<input type="email" name="email" id="newsletter-form-email" class="form-control form-control-lg" placeholder="Your Email Here" required style="color:#111;">
+								<button class="btn btn-primary">Subscribe</button>
+							</div>
+						</form>
+
+						<div class="footer-social">
+							<h3 class="widget-title">Follow Us</h3>
+							<ul>
+								<!-- <li><a href="#"><i class="fa fa-rss"></i></a></li> -->
+								<li><a href="https://web.facebook.com/easyprnigeria" target="blank"><i class="fa fa-facebook"></i></a></li>
+								<li><a href="https://twitter.com/easyprng" target="blank"><i class="fa fa-twitter"></i></a></li>
+								<li><a href="https://www.youtube.com/channel/UChX2XWXDNPlVRIQbppEpj_g" target="blank"><i class="fa fa-youtube"></i></a></li>
+								<li><a href="#" target="blank"><i class="fa fa-linkedin" ></i></a></li>
+								<li><a href="https://www.instagram.com/easyprng/" target="blank"><i class="fa fa-instagram"></i></a></li>
+							</ul>
+						</div><!-- Footer social end -->
+					</div><!-- Col end -->
+
+					<div class="col-md-3 col-sm-12 footer-widget">
+					<h3 class="widget-title">Contact Us</h3>
+						<div class="contact-info-box">
+							<div class="contact-info-box-content">
+								<span><i class="fa fa-university text-dark"></i><strong> &nbsp; EasyPR Nigeria</strong></span><br/>
+								<address>
+									<span> The Hexagon,</span><br/>
+									<span> Plot 111 Oladimeji Alo Street, </span><br/>
+									<span> Lekki Phase 1,</span><br/>
+									<span> Lagos, Nigeria. </span><br>
+									<span><i class="fa fa-mobile text-dark"> &nbsp; </i>+234 809 119 9774</span><br>
+									<span><i class="fa fa-envelope text-dark"> &nbsp; </i> <a href="mailto:info@easypr.ng">info@easypr.ng</a></span>
+								</address>
+								<br>
+							</div>
+						</div>
+						<div class="gap-10"></div>
+						<!-- payment channels images -->
+						<div class="row">
+							<div class="col-sm-12">
+								<img class="thumbnail" style="background-color: transparent;" src="{% static 'easypr/images/payment/cards.png' %}" alt="Easypr Nigeria payment options" />
+							</div>
+							<!-- <div class="col-sm-4">
+								<img class="thumbnail" src="{% static 'easypr/images/payment/verve.png' %}" alt="Easypr Nigeria verve payment" />
+							</div>
+							<div class="col-sm-4">
+								<img class="thumbnail" src="{% static 'easypr/images/payment/mastercard.png' %}" alt="Easypr Nigeria mastercard" />
+							</div> -->
+						</div>
+						<!-- payment channels ends -->
+					</div><!-- Col end -->
+				</div><!-- Row end -->
+			</div><!-- Container end -->
+		</div><!-- Footer main end -->
+
+		<div class="copyright">
+			<div class="container">
+				<div class="row">
+					<div class="col-xs-12 col-sm-5">
+						<div class="copyright-info">
+							<div class="footer-logo pull-left">
+								<span>EasyPR Nigeria</span>
+								<!-- <a href="#"><img src="{% static 'easypr/images/logo/footer-logo.png' %}" alt="EasyPR Nigeria"></a> -->
+							</div>
+							<span> © {% now "Y" %} All Rights Reserved.</span> 
+						</div>
+					</div>
+
+					<div class="col-xs-12 col-sm-6 col-md-push-1">
+						<div class="footer-menu hidden">
+							<ul class="nav unstyled">
+								<li><a href="{% url 'general:contact-us' %}">Contact</a></li>
+								<li><a href="{% url 'general:about-us' %}">About</a></li>
+							</ul>
+						</div>
+					</div>
+				</div><!-- Row end -->
+
+				<div id="back-to-top" data-spy="affix" data-offset-top="10" class="back-to-top affix">
+					<button class="btn btn-primary" title="Back to Top">
+						<i class="fa fa-angle-double-up"></i>
+					</button>
+				</div>
+			</div><!-- Container end -->
+		</div><!-- Copyright end -->
+	</footer><!-- Footer end -->
+	
+{% endblock footer %}
+
+{% block modal %}
+	{% include 'easypr_snippets/login-modal.html' %}
+{% endblock modal %}
+
+{% block inline_scripts %}
+	<script>
+		function hide_div(div){
+		  var div_to_hide =  document.getElementById(div);
+		  div_to_hide.style.display = 'none';
+		}
+	</script>
+{% endblock inline_scripts %}
+
+{% block scripts %}
+	<!-- Javascript Files
+	================================================== -->
+
+	<!-- initialize jQuery Library -->
+	<script type="text/javascript" src="{% static 'easypr/js/jquery.js' %}"></script>
+	<!-- Bootstrap jQuery -->
+	<script type="text/javascript" src="{% static 'easypr/js/bootstrap.min.js' %}"></script>
+	<!-- Owl Carousel -->
+	<script type="text/javascript" src="{% static 'easypr/js/owl.carousel.min.js' %}"></script>
+	<!-- Counter -->
+	<script type="text/javascript" src="{% static 'easypr/js/jquery.counterup.min.js' %}"></script>
+	<!-- Waypoints -->
+	<script type="text/javascript" src="{% static 'easypr/js/waypoints.min.js' %}"></script>
+	<!-- Color box -->
+	<script type="text/javascript" src="{% static 'easypr/js/jquery.colorbox.js' %}"></script>
+	<!-- Isotope -->
+	<script type="text/javascript" src="{% static 'easypr/js/isotope.js' %}"></script>
+	<script type="text/javascript" src="{% static 'easypr/js/ini.isotope.js' %}"></script>
+	<script type="text/javascript" src="{% static 'easypr/js/easypr.js' %}"></script>
+	<!-- Template custom -->
+	<script type="text/javascript" src="{% static 'easypr/js/custom.js' %}"></script>
+{% endblock scripts %}
+
+	</div><!-- Body inner end -->
+	<script id="dsq-count-scr" src="//http-easypr-ng.disqus.com/count.js" async></script>
+</body>
+{% endwith %}
+</html>

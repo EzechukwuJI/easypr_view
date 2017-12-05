@@ -1,0 +1,18 @@
+<div class="row">
+	<h3> What are your target industries </h3>
+	<p> Select all that applies </p>
+	<div class="gap-20"></div>
+	<div class="row">
+		{% for sector in sectors %}
+			<div class="col-md-3">
+				<div class="sector custom-select-box-lg target-sector" id ="{{ sector.name_slug }}" onclick='return select_option("target-sector","{{ sector.name_slug }}","Yes");'>
+					<input type="checkbox" class="hidden" value = "{{ sector.name_slug }}" id = "select_{{ sector.name_slug }}" name="target_audience" />
+					<div>
+						<strong>{{ sector.name|upper }}</strong>
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+</div>
+<div class="gap-30"></div>

@@ -1,0 +1,24 @@
+{% extends 'easypr_general/base.html' %}
+{% load staticfiles %}
+{% block title %}page not found{% endblock title %}
+{% block inner_content %}
+	<section id="main-container" class="main-container">
+		<div class="container">
+			<div class="row">
+				<div class="error-page text-center">
+					<div class="error-code">
+						<h3><strong>404</strong></h3>
+					</div>
+					<div class="error-message">
+
+						<h3>Oops... {% if response %}{{ response }}{% else %} Page not found! {% endif %}</h3>
+					</div>
+					<div class="error-body">
+						Try using the button below to go to main page of the site <br>
+						<a href="/" class="btn btn-primary">Back to Home Page</a>
+					</div>
+				</div>
+			</div><!-- Content row -->
+		</div><!-- Conatiner end -->
+	</section><!-- Main container end -->
+{% endblock inner_content %}

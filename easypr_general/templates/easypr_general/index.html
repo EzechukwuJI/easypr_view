@@ -1,0 +1,136 @@
+{% extends 'easypr_general/base.html' %}
+{% load staticfiles %}
+{% block title %}PR,Content Distribution, Marketing, Advertising for Africa{% endblock %}
+
+{% block bouquets %}
+	<section id="main-container" class="main-container">
+		<div class="container">
+			<div class="row text-center text-white">
+				<h3 class="title-border">
+					<span id="packages"></span>
+					<span class="title-head" style="padding-bottom: 2px; color:#666666; text-transform: capitalize !important;">Affordable And Targeted Marketing Solutions </span>
+					<p>To Help Build Your Brand</p>
+					<!-- <p style="font-size: 25px; padding-top:7.5px; text-transform:none;">To Help Build Your Brand</p> -->
+				</h3>
+			</div><!--/ Title row end -->
+			<div class="row">
+				<div class="col-md-12">
+					<!-- left panel -->
+					<div class="col-md-3 tiles-cols">
+						<div class="feature-tile-lg">
+							<a href="{% url 'easypr_ng:bundle-plans' %}">
+								<img class="feature-img-lg" src="{% static 'easypr/images/services/service_tiles/Bespoke Marketing Bundles.jpg' %}" alt="marketing bundles"/>
+							</a>
+						</div>
+					</div>
+					<!-- center to right pane  -->
+					<div class="col-md-9 tiles-cols">
+						<div class="col-md-12">
+							<div class="col-md-4"> 
+								<div class="feature-tile-sm">
+									<a href="{% url 'easypr_ng:service-details' 'press-release-distribution' %}">
+										<img class="feature-img-sm" src="{% static 'easypr/images/services/service_tiles/Press Distribution.jpg' %}" alt="EasyPR press distribution" />
+									</a>
+								</div>
+							</div>
+
+							<div class="col-md-4"> 
+								<div class="feature-tile-sm">
+									<a href="{% url 'easypr_ng:service-details' 'advertising' %}">
+										<img class="feature-img-sm" src="{% static 'easypr/images/services/service_tiles/Advertising.jpg' %}" alt="image advertising" />
+									</a>
+								</div>
+							</div>
+
+							<div class="col-md-4"> 
+								<div class="feature-tile-sm">
+									<a href="{% url 'easypr_ng:service-details' 'sme-start-up-toolkit' %}">
+										<img class="feature-img-sm" src="{% static 'easypr/images/services/service_tiles/SME Marketing.jpg' %}" alt="SME marketing" />
+									</a>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-md-12">
+							<div class="col-md-4"> 
+								<div class="feature-tile-sm">
+									<a href="{% url 'easypr_ng:service-details' 'events-bureau' %}">
+										<img class="feature-img-sm" src="{% static 'easypr/images/services/service_tiles/Events.jpg' %}" alt="Events Bureau" />
+									</a>
+								</div>
+							</div>
+							<div class="col-md-4"> 
+								<div class="feature-tile-sm bg-info">
+									<a href="{% url 'easypr_ng:service-details' 'sales-and-marketing' %}">
+										<img class="feature-img-sm" src="{% static 'easypr/images/services/service_tiles/Online Sales and Marketing.jpg' %}" alt="image sales and marketing" />
+									</a>
+								</div>
+							</div>
+							<div class="col-md-4"> 
+								<div class="feature-tile-sm bg-info">
+									<a href="{% url 'easypr_ng:service-details' 'content-writing-and-marketing' %}">
+										<img class="feature-img-sm" src="{% static 'easypr/images/services/service_tiles/Content Marketing.jpg' %}" alt="image content marketing " />
+									</a>
+								</div>
+							</div>
+							
+						</div>
+						
+					</div>
+				</div>
+				<div class="gap-10"></div>
+				<div class="col-md-12 text-center">
+					<a href="{% url 'easypr_ng:strategy-planner-intro' %}" class="slider btn btn-secondary" style="font-size:15px; line-height: 15px;">Not Sure? Find The Right Strategy For Your Brand.</a>
+				</div>
+			</div>
+		</div><!-- Conatiner end -->
+	</section><!-- Main container end -->
+{% endblock bouquets %}
+
+{% block latest-news %}
+	{% if recent_posts %}
+		<!-- <div class="gap-10"></div> -->
+		<section id="news" class="news">
+			<div class="container">
+				<div class="row text-center">
+					<h3 class="title-border">
+						<!-- Get Up to Date -->
+						<span>Latest News Around The World</span>
+					</h3>
+				</div><!--/ Title row end -->
+				<div class="gap-10"></div>
+				<div class="row">
+					{% for post in recent_posts %}
+						<div class="col-sm-3">
+							<div style="border: thin solid #ffffff;border-radius: 0px; margin-top:5px; padding:8px; display:block; position:relative; text-align: left; box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 2px 4px 0 rgba(0, 0, 0, 0.19);">
+								<div class="latest-post">
+								{% if post.featured_image %}
+									<div class="latest-post-media">
+										<a href="{% url 'easypr_ng:news-details' post.pk post.title_slug %}">
+											<img class="img-responsive" src="{{ post.featured_image }}" alt="EasyPR Nigeria News">
+										</a>
+									</div>
+								{% endif %}
+									<div class="post-body">
+										<h4 class="post-title">
+											<a href="{% url 'easypr_ng:news-details' post.pk post.title_slug %}">{{ post.post_title|title }}</a>
+											<span class="post-item-date">
+												<br/> <i class="fa fa-clock-o"></i> <small>{{ post.date_posted|date }}</small>
+											</span>
+										</h4>
+										<div class="post-text">
+											<p>{{ post.post_body|truncatewords:35 }}</p>
+										</div>
+									</div>	
+									<a class="learn-more" href="{% url 'easypr_ng:news-details' post.pk post.title_slug %}">
+					         			<i class="fa fa-caret-right"></i> Read More
+			                  		</a>
+								</div><!-- Latest post end -->
+							</div>
+						</div><!-- 3rd post col end -->
+					{% endfor %}
+				</div><!--/ Content row end -->
+			</div><!--/ Container end -->
+		</section><!--/ News end -->
+	{% endif %}
+{% endblock latest-news %}

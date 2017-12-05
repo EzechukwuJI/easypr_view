@@ -1,0 +1,159 @@
+{% load humanize %}
+{% load staticfiles %}
+
+	<div id="{{ modal_Id }}" class="modal fade">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content no-border-radius bg-royal">
+	      <div class="modal-header bg-warning">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: #000000;">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	        <h5 class="modal-title">Select method of payment</h5>
+	      </div>
+	      <div class="modal-body text-center bg-royal text-white">
+	      	<p class = "pull-left text-yellow">Please remember to include the transaction reference to your payment details.</p>
+	      	<strong class="pull-left">Transaction Ref. <span id ="id_purchase_ref"></span> </strong>
+	      		<!--  pay option selection form  -->
+	      		<form action="#" method="post">
+    				{% csrf_token %}
+					<div class="gap-10"></div>
+					<div class="row">
+						<input type="hidden" name="bundle_name" id = "id_bundle_name" value=""  />
+						<input type="hidden" name="bundle_price" id = "id_bundle_price" value=""  />
+						<!-- <input type="hidden" name="purchase_txn_ref" id = "id_purchase_txn_ref" value=""  /> -->
+						<div class="col-md-6">
+							<div class="payment-box" id="debit_card" onclick='select_payment("debit_card"); makeCardPayment();'>
+								<strong class="text-danger please-wait hidden text-center">Please wait...</strong><br>
+								<img style="width: 90%" src="{% static 'easypr/images/payment/cards.png' %}" alt="Easypr Nigeria" />
+								<!-- <img class="thumbnail" src="{% static 'easypr/images/payment/verve.png' %}" alt="Easypr Nigeria" />
+								<img class="thumbnail" src="{% static 'easypr/images/payment/mastercard.png' %}" alt="Easypr Nigeria" /> -->
+								<input type="checkbox" class="hidden" name="payment-type" id="check_debit_card"/>
+								<div class="text-center">
+									<h5>Pay with debit card</h5>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="payment-box" id = "bank_deposit" onclick='return select_payment("bank_deposit");'>
+								<!-- <img class="thumbnail" src="{% static 'easypr/images/payment/visa.png' %}" alt="Easypr Nigeria" /> -->
+								<input type="checkbox" class="hidden" name="payment-type" id="check_bank_deposit" />
+								<div class="text-center">
+									<h5>Bank Deposit</h5>
+									<strong class="text-danger text-center" style="font-size: 12px;">(For clients in Nigeria Only)</strong><br/>
+									<small class="text-dark text-center">Enter details in the form provided below</small>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="payment-box" id = "bank_transfer" onclick='return select_payment("bank_transfer");'>
+								<input type="checkbox" class="hidden" name="payment-type" id="check_bank_transfer"/>
+								<div class="text-center">
+									<h5>Bank Transfer</h5>
+									<small class="text-dark text-center">Enter details in the form provided below</small>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6">
+						</div>
+					</div>
+				</form>
+
+				<!-- bank paydetails info form  -->
+				<form id = "paydetails_form">
+					<span id="id_saved_status" class="text-white"></span>
+					{% csrf_token %}
+					<div class="well well-default bg-royal no-border-radius hidden" id="pay-details">
+						<div class="row text-white">
+							<div class="col-md-10">
+								<h5 class="text-white"> Enter Payment Details </h5><hr style="margin: 7.5px;"/>
+								<input type="hidden" name="payment_method" id="id_payment_method" />
+								<input type="hidden" name="bundle_purchase_id" id="id_bundle_purchase_id" />
+								<div class="row">
+									<div class="col-md-4">
+										<strong>Teller Number: </strong>
+									</div>							
+									<div class="col-md-8">
+										<input class="form-control no-border-radius bg-white" type="text" name="teller_number" id="id_teller_number" />
+									</div>
+								</div>
+								<br/>
+
+								<div class="row">
+									<div class="col-md-4">
+										<strong>Bank: </strong>
+									</div>							
+									<div class="col-md-8">
+										<select class="form-control no-border-radius bg-white" name="bankname" id="id_bankname">
+											<option value="Diamond Bank">Diamond Bank</option>
+											<option value="GTB">Guarantee Trust Bank</option>
+										</select>
+									</div>
+								</div>
+								<br/>
+								<div class="row">
+									<div class="col-md-4">
+										<strong>Amount Paid: </strong>
+									</div>							
+									<div class="col-md-8">
+										<input class="form-control no-border-radius bg-white" type="number" name="amount" id="id_amount"/>
+									</div>
+								</div>
+								<br/>
+								<div class="row">
+									<div class="col-md-4">
+										<strong>Currency: </strong>
+									</div>							
+									<div class="col-md-8">
+										<select class="form-control no-border-radius bg-white" name="currency" id="id_currency">
+											<option value="dollar">($) Dollar</option>
+											<option value="naira">(&#8358;) Naira</option>
+										</select>
+									</div>
+								</div>
+								<br/>
+								<div class="row">
+									<div class="col-md-4">
+										<strong>Date Paid: </strong>
+									</div>							
+									<div class="col-md-8">
+										<input class="form-control no-border-radius bg-white" type="date" name="date_paid" id="id_date_paid" />
+									</div>
+								</div>
+								<br/>
+								<div class="row">
+									<div class="col-md-4">
+										<!-- <strong>Date Paid: </strong> -->
+									</div>							
+									<div class="col-md-8">
+										<a class="btn btn-success pull-right" id="id_save_payment" onclick='return save_pay_details()' >Save Payment</a>
+									</div>
+								</div>
+								<br/>
+							</div>
+						</div>
+					</div>
+					<br/>
+
+					{% if purchase.ordered %}
+						<div>
+							<input type="checkbox" name="accept_t_n_c" value="{{ purchase.ordered }}" checked= "{{ purchase.ordered }}" id="id_tandc" disabled />
+							<strong class="text-yellow">&nbsp; &nbsp; Accept  <a href="{% url 'general:terms-and-conditions' %}" class="text-warning"> Terms and Conditions </a> for content submission and distribution</strong>
+						</div>
+				  	{% else %}
+					  	<div class = "hidden" id="tandc_div">
+							<input type="checkbox" name="accept_t_n_c" value="false" id="id_tandc" onclick='return  accept_TandC()' />
+							<strong class="text-yellow"> &nbsp; &nbsp; Accept <a href="{% url 'general:terms-and-conditions' %}" class="text-warning"> Terms and Conditions </a> for content submission and distribution</strong>
+						</div>
+				  	{% endif %}
+				</form>
+	      	</div> <!-- modal body ends -->
+
+	        <div class="modal-footer">
+				<a href="{% url 'easypr_ng:confirmation' %}" class="btn btn-primary pull-right" id="id_proceed" {% if not purchase.ordered %} disabled {% endif %}> Proceed </a>
+				<a href="{{ previous_page }}" class="btn btn-primary pull-left"> Back </a>
+		    </div>
+	    </div><!-- /.modal-content -->
+	  </div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->

@@ -1,0 +1,127 @@
+{% extends 'easypr_general/base.html' %}
+{% load staticfiles %}
+
+{% block title %}confirmation page {% endblock title %}
+{% block inner_content %}
+	<section id="main-container" class="main-container">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-1"> &nbsp; </div>
+				<div class="col-md-10"> 
+					<div class="panel panel-primary">
+						<div class="panel-heading bg-royal text-white">
+							<strong>Confirmation Page</strong>
+						</div>
+						<div class="panel-body">
+							<h2>Thank You!</h2>
+					{% if purchase.service_purchased == "pr_package" %}
+							<h4>We have received your submission with transaction number #{{ post.transaction_id  }}.</h4>
+							<p>Kindly keep this number for  reference purposes.</p>
+							<br>
+							<strong class="text-black">A copy of your invoice has been sent to the email address you provided at the point of registration. You will receive a notification once this submission is published.</strong>
+						</div>
+						<div class="panel-heading bg-royal text-white no-border-radius">
+							<strong>Order Summary</strong>
+						</div>
+						<div class="panel-body">
+							<div class="col-md-7 text-dark">
+								<table class="table table-striped text-dark table-border">
+									<tr>
+										<td><strong>Press Material</strong></td>
+										<td>{{ post.press_material }}</td>
+									</tr>
+									<tr>
+										<td><strong>Package</strong></td>
+										<td>{{ purchase.package|title }}</td>
+									</tr>
+									<tr>
+										<td><strong>Selected Media</strong></td>
+										<td>{{ post.get_media_houses }}</td>
+									</tr>
+									<tr>
+										<td><strong>Media Outreach Credit</strong></td>
+										<td>{{ purchase.media_outreach_credit }}</td>
+									</tr>
+								</table>
+							</div>
+					{% elif purchase.service_purchased == "marketing_bundle" %}
+						<h4>We have received your submission with transaction number #{{ purchase.transaction_id  }}.</h4>
+							<p>Kindly keep this number for  reference purposes.</p>
+							<br>
+							<strong class="text-black">A copy of your invoice has been sent to the email address you provided at the point of registration.
+							 <!-- You will receive a notification once this submission is published. -->
+							</strong>
+						</div>
+						<div class="panel-heading bg-royal text-white no-border-radius">
+							<strong>Order Summary</strong>
+						</div>
+						<div class="panel-body">
+							<div class="col-md-7 text-dark">
+								<table class="table table-striped text-dark table-border">
+									<tr>
+										<td><strong>Marketing Bundle Purchased</strong></td>
+										<td>{{ purchase.bundle.name|title }}</td>
+									</tr>
+									<tr>
+										<td><strong>Bundle Price</strong></td>
+										<td>{{ pay_info.amount_paid }}</td>
+									</tr>
+									<tr>
+										<td><strong>Payment Status</strong></td>
+										<td>
+											<p>{{ pay_info.pay_status }}</p>
+										</td>
+									</tr>
+									<!-- <tr>
+										<td><strong>Selected Media</strong></td>
+										<td> post.get_media_houses }}</td>
+									</tr>
+									<tr>
+										<td><strong>Media Outreach Credit</strong></td>
+										<td> purchase.media_outreach_credit }}</td>
+									</tr> -->
+								</table>
+							</div>
+						{% endif %}
+
+							<div class="col-md-5 left-border-dashed"> 
+								<div class="shadow-box bg-royal text-white">
+									If you need further assistance, kindly reach us on<br><br>
+									<span><i class="fa fa-home" style="margin-right: 20px;"></i><strong>EasyPR Nigeria </strong></span><br>
+									<span><i class="fa fa-calendar" style="margin-right: 20px;"></i><strong>Office hours </strong> <span> Mon - Fri: 9.00am to 5.00pm</span></span><br>
+									<span><i class="fa fa-phone" style="margin-right: 20px;"></i><strong> +234 090 55511766</strong></span><br>
+									<span><i class="fa fa-envelope" style="margin-right: 20px;"></i><strong><a href="mailto:helpdesk@easypr.ng" class="text-yellow">helpdesk@easypr.ng</a></strong></span><br>
+									<span><i class="fa fa-laptop" style="margin-right: 20px;"></i><strong><a href="{% url 'general:contact-us' %}" class="text-yellow">Use our feedback form</a></strong></span><br>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-1"> &nbsp; </div>
+				<div class="row">
+					<div class="col-md-12"> 
+						{% if pay_info.pay_status == "pending" %}
+							<strong class="text-danger">
+								Please note that your payment is yet to be verified. You will be notified when we verify the payment you made.
+							</strong>
+						{% endif %}
+					</div>
+				</div>
+			</div><!-- Content row -->
+		</div><!-- Conatiner end -->
+	</section><!-- Main container end -->
+{% endblock inner_content %}
+
+
+
+
+{% block inline_scripts %}
+
+{% endblock inline_scripts %}
+
+
+
+
+
+
+

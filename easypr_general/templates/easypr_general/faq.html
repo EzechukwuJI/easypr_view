@@ -1,0 +1,222 @@
+{% extends 'easypr_general/base.html' %}
+{% load staticfiles %}
+
+{% block title %}Frequently Asked Questions {% endblock title %}
+
+{% block inner_content %}
+	<div id="banner-area" class="banner-area" style="background-image:url({% static 'easypr/images/banner/banner1.jpg' %})">
+			<div class="banner-text">
+	     		<div class="container">
+		        	<div class="row">
+		        		<div class="col-xs-12">
+		        			<div class="banner-heading">
+		        				<h1 class="banner-title title-border-left">Frequently Asked Questions</h1>
+		        				<p class="banner-desc">We have detailed below answers to some questions you may have. If you don't the answer to your question kindly <a href="{% url 'general:contact-us' %}">contact us</a> and we will be glad to respond to all of your questions</p>
+		        			</div>
+		        		</div><!-- Col end -->
+		        	</div><!-- Row end -->
+	       	</div><!-- Container end -->
+	    	</div><!-- Banner text end -->
+		</div><!-- Banner area end --> 
+
+
+		<section id="main-container" class="main-container">
+			<div class="container">
+				<div class="row">
+
+					<div class="col-lg-3 col-md-3 col-sm-12">
+						<div class="sidebar sidebar-left">
+
+							<div class="widget">
+								<h3 class="widget-title">Contact us</h3>
+
+								<div class="contact-info-box">
+								<i class="fa fa-map-marker">&nbsp;</i>
+									<div class="contact-info-box-content">
+										<h4>Visit Us</h4>
+										<p>EasyPR Nigeria, office address here</p>
+									</div>
+								</div>
+
+								<div class="contact-info-box">
+									<i class="fa fa-envelope-o">&nbsp;</i>
+									<div class="contact-info-box-content">
+										<h4>Mail Us</h4>
+										<p>info@easypr.ng</p>
+									</div>
+								</div>
+
+								<div class="contact-info-box">
+									<i class="fa fa-phone">&nbsp;</i>
+									<div class="contact-info-box-content">
+										<h4>Call Us</h4>
+										<p>+91 0331 3421 213</p>
+									</div>
+								</div>
+
+							</div><!-- Widget end -->
+
+							<!-- <div class="widget">
+								<div class="quote-item classic-quote">
+						         <span class="quote-text">
+						           Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor inci done idunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
+						         </span>
+
+						         <div class="quote-item-footer">
+						         	<img class="testimonial-thumb" src="{% static 'easypr/images/clients/testimonial1.png' %}" alt="testimonial">
+						         	<div class="quote-item-info">
+						         		<span class="quote-author">Deslie Telley</span>
+							         	<span class="quote-subtext">Manager</span>
+						         	</div>
+						         </div>
+					     		</div><!-- Quote item ends
+
+							</div> --><!-- Widget end -->
+
+						</div><!-- Sidebar end -->
+					</div><!-- Sidebar Col end -->
+
+					<div class="col-lg-9 col-md-9 col-sm-12">
+						<div class="content-inner-page">
+
+							<div class="panel-group" id="accordion">
+			              	<div class="panel panel-default">
+				                <div class="panel-heading">
+					                <h4 class="panel-title"> 
+					                	<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+										What is Press Release?</a> 
+					                </h4>
+				                </div>
+				                <div id="collapseOne" class="panel-collapse collapse in">
+				                  	<div class="panel-body">
+				                    	<p>A press release can also be referred to as news release, media release, press statement or video release. It is a written or recorded communication directed at members of the news media for the purpose of announcing something ostensibly newsworthy. Typically, they are mailed, faxed, or e-mailed to reporters, editors and journalists at newspapers, magazines, radio stations, online media, television stations or television networks. Your press release is mostly an announcement, so it should be between 250 to 400 words. Anything more than these, will be reclassified and will not pass for a press release. Tens of press releases are sent to journalists every day, so for yours to be given prominence and get published, you must get straight to the point with the information you wish to communicate and avoid use of superlative adjectives.</p>
+				                 	</div>
+				                </div>
+			              	</div><!--/ Panel 1 end-->
+
+			              	<div class="panel panel-default">
+				                <div class="panel-heading">
+					                <h4 class="panel-title">
+					                	<a data-toggle="collapse" class="collapsed" data-parent="#accordion" href="#collapseTwo"> What is feature story?</a>
+					            	</h4>
+				                </div>
+				                <div id="collapseTwo" class="panel-collapse collapse">
+				                  <div class="panel-body">
+				                    <p>Feature content is a non-fictional prose forming an independent part of a publication. Normally, it is an elaborate form of prose always exceeding 500 words. All the other details that could not be accommodated in the press release can comfortably fit into the feature content. It requires some level of creativity and style to get readers to relax and read such lengthy material without throwing it away. In easyPR, we have very skilful writers whose task it is to craft a good and marketable feature stories for clients. All you have to do is submit your material and we will take it up from there.</p>
+				                  </div>
+				                </div>
+			              	</div><!--/ Panel 2 end-->
+
+			              	<div class="panel panel-default">
+				                <div class="panel-heading">
+					                <h4 class="panel-title">
+					                <a data-toggle="collapse" class="collapsed" data-parent="#accordion" href="#collapseThree"> What is interview?</a> 
+					            	</h4>
+				                </div>
+				                <div id="collapseThree" class="panel-collapse collapse">
+				                  <div class="panel-body">
+				                    <p>The word ‘interview’ refers to a one-on-one conversation with one person acting in the role of the interviewer and the other in the role of the interviewee. Media interviews always involve journalists interviewing resource persons on a subject matter which they have good knowledge on. Interview is a veritable media relations tool for any business, in that it provides a great opportunity for the business owner to explain an offerings directly to its customers without the risk of being misinterpreted. If properly handled and managed, interview can provide huge marketing leverage. In easyPR, we not only help to place already conducted interviews in the media but we also arrange for the interviews to be conducted, and then placed in selected media. </p>
+				                  </div>
+				                </div>
+			              	</div><!--/ Panel 3 end-->
+
+			              	<div class="panel panel-default">
+				                <div class="panel-heading">
+					                <h4 class="panel-title">
+					                <a data-toggle="collapse" class="collapsed" data-parent="#accordion" href="#collapseFour"> What is photo news?</a> 
+					            	</h4>
+				                </div>
+				                <div id="collapseFour" class="panel-collapse collapse">
+				                  <div class="panel-body">
+				                    <p>It is a Chinese proverb that said that photos are worth more than a thousand words. Photos are powerful media relations tool. An entire event could be publicised using photos without a single word written about it. When considering a photo for news media, you must take into consideration the nature of the medium and section of the media targeted. Good photo news starts with professional shots by a skilful photojournalist. Do not forget that a photo also tells a story. So, it may not be enough to use your iPad or smartphone to take that shot. The perspective matters. In easyPR, we syndicate good photo news across selected platforms and we can also pair you with our professional photojournalists to take the shots for you.</p>
+				                  </div>
+				                </div>
+			              	</div><!--/ Panel 4 end-->
+
+			              	<div class="panel panel-default">
+				                <div class="panel-heading">
+					                <h4 class="panel-title">
+					                <a data-toggle="collapse" class="collapsed" data-parent="#accordion" href="#collapseFive"> When will my contents be published?</a> 
+					            	</h4>
+				                </div>
+				                <div id="collapseFive" class="panel-collapse collapse">
+				                  <div class="panel-body">
+				                    <p>All contents submitted to easyPR have a life span of fourteen days. Your content gets published within two weeks. After two weeks you are entitled to a refund of equivalent cost of unpublished platforms. Except in instances where the client makes room for an extension which should not exceed one week. However, we recommend that you submit your content at least, two days ahead of expected day of first publication. For instance, if you want your content to start coming out on Monday next week, you should make your submission by Wednesday or Thursday this week.</p>
+				                  </div>
+				                </div>
+			              	</div><!--/ Panel 5 end-->
+
+			              	<div class="panel panel-default">
+				                <div class="panel-heading">
+					                <h4 class="panel-title">
+					                <a data-toggle="collapse" class="collapsed" data-parent="#accordion" href="#collapseSix"> What size of content will be published?</a> 
+					            	</h4>
+				                </div>
+				                <div id="collapseSix" class="panel-collapse collapse">
+				                  <div class="panel-body">
+				                    <p>Your content may be a 400-word press release, 700-words feature or 1, 200 words interviews but we cannot guarantee that every word will be printed. The editor may edit the headline and may cut some paragraphs out and both ideas and sequence of presentation may be rearranged to suit the platform’s editorial or house style. So, do not expect your content to be placed verbatim. The core message of your content will remain despite level of editing and your core message will be contained in whatever size of content that is printed.</p>
+				                  </div>
+				                </div>
+			              	</div><!--/ Panel 5 end-->
+
+			              	<div class="panel panel-default">
+				                <div class="panel-heading">
+					                <h4 class="panel-title">
+					                <a data-toggle="collapse" class="collapsed" data-parent="#accordion" href="#collapseSeven"> On which page will my content be placed?</a> 
+					            	</h4>
+				                </div>
+				                <div id="collapseSeven" class="panel-collapse collapse">
+				                  <div class="panel-body">
+				                    <p>easyPR cannot predetermine which page your content will be placed since it is not an advertisement. However, you can be certain to have your content placed in a business section of a newspaper if the content is business related or be placed in the political section if its politics related. easyPR cannot influence your story to be published in the front page or page 3 or 5 or any particular page for that matter. </p>
+				                  </div>
+				                </div>
+			              	</div><!--/ Panel 5 end-->
+
+
+			              	<div class="panel panel-default">
+				                <div class="panel-heading">
+					                <h4 class="panel-title">
+					                <a data-toggle="collapse" class="collapsed" data-parent="#accordion" href="#collapseEight"> Will the name of my company appear in the headline?</a> 
+					            	</h4>
+				                </div>
+				                <div id="collapseEight" class="panel-collapse collapse">
+				                  <div class="panel-body">
+				                    <p>The name of your company will appear in the headline of any content we may send on your behalf to the media but we cannot guarantee that your company’s name will appear just the way we wrote it in the headline. Newspapers like to use popular brands in the headline, so it will not be surprising if they do not use the name of your company in that first release that you will send. Over time, they will get used to it and you will also become a more popular brand and they will not have any problems flying your name on the headline. </p>
+				                  </div>
+				                </div>
+			              	</div><!--/ Panel 5 end-->
+
+			              	<div class="panel panel-default">
+				                <div class="panel-heading">
+					                <h4 class="panel-title">
+					                <a data-toggle="collapse" class="collapsed" data-parent="#accordion" href="#collapseNine"> How will I know if my content is published?</a> 
+					            	</h4>
+				                </div>
+				                <div id="collapseNine" class="panel-collapse collapse">
+				                  <div class="panel-body">
+				                    <p>It is the duty of the easyPR team to monitor your contents and inform you if published. So, every morning, expect a member of the easyPR team to notify you of any publication. easyPR will also send you a notification link to your email once the story is published online. </p>
+				                  </div>
+				                </div>
+			              	</div><!--/ Panel 5 end-->
+
+			              	<div class="panel panel-default">
+				                <div class="panel-heading">
+					                <h4 class="panel-title">
+					                <a data-toggle="collapse" class="collapsed" data-parent="#accordion" href="#collapseTen"> What happens at the end of my campaign?</a> 
+					            	</h4>
+				                </div>
+				                <div id="collapseTen" class="panel-collapse collapse">
+				                  <div class="panel-body">
+				                    <p><span class="list-icon pull-right"> <i class="fa fa-money"> </i></span> At the end of your campaign when all contents must have been published or we have exhausted our fourteen days timeline without getting an extension, we will compile the published copies and send them with our report on the campaign, including recommendation on further media relations activities. The copies that shall be sent to you will be photocopies of the page as easyPR has not undertaken to buy all copies of publications. The delivery of that report will bring your campaign to a conclusive end. </p>
+				                    <!-- <a href="#">Read More</a> -->
+				                  </div>
+				                </div>
+			              	</div><!--/ Panel 6 end-->
+				         </div><!-- Accordion end -->
+				         	Welcome to easyPR, get started by submitting your content <a href="/#packages">here</a>
+						</div><!-- Content inner end -->
+					</div><!-- Content Col end -->
+				</div><!-- Main row end -->
+			</div><!-- Conatiner end -->
+		</section><!-- Main container end -->
+{% endblock inner_content %}

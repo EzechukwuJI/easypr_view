@@ -1,0 +1,72 @@
+{% load base_custom_filters %}
+
+<style>
+	blockquote {
+		background-color: #e8e8e8; 
+		border: thin solid #d8d8d8; 
+		padding: 7.5px; 
+		border-radius:5px;"
+	}
+	table {
+		background-color: #ffffff;
+	}
+	.text-red {
+		color: red;
+	}
+	.text-dark {
+		color: #444444;
+	}
+	.btn {
+		padding: 10px;
+		border: 2px solid #000000;
+		color: #ffffff;
+		background-color: #012e5b;
+	}
+	tr.border td {
+		border: thin solid #e0e0e0; padding: 10px;
+	}
+</style>
+{% if mail_type == "send_post" %}
+	<p>
+		Kindly find below the details of the content for publication.
+		{% if post.has_image %} <br> Also note the attached files (images). {% endif %}
+	</p>
+	<blockquote style="background-color: #e8e8e8;border: thin solid #d8d8d8; padding: 7.5px; border-radius:5px;">
+		<table width="100%" style="background-color: #ffffff; color: #444444;">
+			<tr style="border: thin solid #e0e0e0; padding: 10px;">
+				<td colspan="2" style="border: thin solid #e0e0e0; padding: 10px;"><strong> {{ post.post_title|title }}</strong></td>
+			</tr>
+			<tr style="border: thin solid #e0e0e0; padding: 10px;">
+				<td style="border: thin solid #e0e0e0; padding: 10px;"><small><strong>Date: </strong>&nbsp; {{ post.date_posted|date }}</small></td>
+				<td style="border: thin solid #e0e0e0; padding: 10px;"><small><strong>Sector:</strong> &nbsp; {{ post.sector.name|title }}</small></td>
+			</tr>
+			<tr style="border: thin solid #e0e0e0; padding: 10px;">
+				<td colspan ='2' style="text-align: justify; padding: 10px;">{{ post.post_body|capfirst }}</td>
+			</tr>
+		</table>
+	</blockquote>
+{% elif mail_type == "processing" %}
+	<blockquote style="background-color: #e8e8e8;border: thin solid #d8d8d8; padding: 5px; border-radius:5px;">
+		<p style="background-color: #ffffff; padding: 5px;">
+			We are pleased to inform you you that the status of your publication with 
+			<strong>Ref. ID <span style="color: green;"> {{ post.transaction_id }}</span></strong><br/> has moved from <b>New</b> to <b>Processing</b>
+		</p>
+	</blockquote>
+{% elif mail_type == "publish" %}
+	<blockquote style="background-color: #e8e8e8;border: thin solid #d8d8d8; padding: 7.5px; border-radius:5px;">
+		<p style="background-color: #ffffff; padding: 5px;">
+			We are pleased to inform you you that the status of your publication with 
+			<strong>Ref. ID <span style="color: green;"> {{ post.transaction_id }}</span></strong><br/> has moved from <b>Processing</b> to <b>Published</b>
+			<div style="margin-top: 15px;"></div>
+			 Find below the links and other details of your post on the media platforms you selected.
+			 <div style="margin-top: 15px;"></div>
+			 <ul>
+				{% for link in post.get_media_urls %}
+					<li style="list-style: none; padding: 5px;"><a href = "{{ link }}" target="blank" style="text-decoration: none;">{{ link }}</a></li><br/>
+				{% endfor %}
+			</ul>
+		</p>
+	</blockquote>
+{% endif %}
+
+

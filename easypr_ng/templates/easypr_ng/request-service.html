@@ -1,0 +1,464 @@
+{% extends 'easypr_general/base.html' %}
+{% load staticfiles %}
+{% load base_custom_filters %}
+{% block title %}{{ service_type|capfirst }} Request {% endblock title %}
+
+
+
+
+{% block inner_content %}
+	<div id="banner-area" class="banner-area" style="background-image:url({% static 'easypr/images/banner/request_service.jpg' %})">
+		<div class="banner-text">
+     		<div class="container">
+	        	<div class="row">
+	        		<div class="col-xs-12 text-center">
+	        			<div class="banner-heading">
+	        				<!-- <h1 class="banner-title title-border-left">Request a service</h1> -->
+	        				<!-- <p class="banner-desc">caption here</p> -->
+	        			</div>
+	        		</div><!-- Col end -->
+	        	</div><!-- Row end -->
+       		</div><!-- Container end -->
+    	</div><!-- Banner text end -->
+	</div><!-- Banner area end --> 
+
+
+	<section id="main-container" class="main-container">
+		<div class="container">
+			<div class="row">
+				{% if item == "blogger-distribution" %}
+					<div class="col-md-1 bg-white"></div>
+				{% else %}
+					<div class="col-md-2 bg-white"></div>
+				{% endif %}
+				<div class="col-md-8 bg-white">
+					<form action = "" method = "post" class="text-dark" enctype="multipart/form-data">
+
+						{% csrf_token %}
+						<div class="panel panel-primary">
+							<div class="panel-heading bg-royal no-border-radius text-white">
+								<strong>Service Request Form</strong>
+							</div>
+							{% if item == "blogger-distribution" %}
+								{% include 'snippets/blogger-dist.html' %}
+							{% elif item == "newspapers-magazines" %}
+								{% include 'snippets/newspaper-adv-request.html' %}
+							{% elif item == "radio-advertising" %}
+								{% include 'snippets/radio-adv-request.html' %}
+							{% elif item == "tv-advertising" %}
+								{% include 'snippets/tv-adv-request.html' %}
+							{% elif not item == "photo-news" %}
+								<div class="panel-body">
+									<div class="row">
+						                <div class="col-md-3">
+						                	<strong class="text-dark">
+						                		Request Type:
+						                	</strong>
+						                </div>
+						                <div class="col-md-9">
+						                	<input type="text" class="form-control no-border-radius text-dark bg-white"  readonly value="{{ item|title|strip_chars:"-" }}" style="font-weight:bold" /> 
+						                </div>
+						            </div>
+						            <br>
+						            <div class="row">
+						                <div class="col-md-3">
+						                	<strong class="text-dark">Brief Description</strong>
+						                </div>
+						                <div class="col-md-9">
+						                	<textarea class="form-control no-border-radius bg-white border-thick" cols="40" id="id_brief_description" maxlength="450" name="brief_description" placeholder="Briefly describe the service you want." required="required" rows="5"></textarea>
+						                </div>
+						            </div>
+						            <br>
+
+						            <div class="row">
+						                <div class="col-md-3">
+						                	<strong class="text-dark">When Do you Need this service?</strong>
+						                </div>
+						                <div class="col-md-9">
+						                	<input type="date" name="time_service_needed" class="form-control no-border-radius border-thick" required/>
+						                </div>
+						            </div>
+						            <br>
+
+						            <div class="row">
+						                <div class="col-md-3">
+						                	<strong class="text-dark">When can we call you?</strong>
+						                </div>
+						                <div class="col-md-9">
+						                	<select name="preferred_call_time" class="form-control no-border-radius border-thick" required>
+						                		<option value="Mon-Fri (9am - 5pm)">Mon-Fri (9am - 5pm)</option>
+						                		<option value="Saturdays">Saturdays</option>
+						                		<option value="Prefer Email">Prefer Email</option>
+						                		<option value="Anytime">Anytime</option>
+						                	</select>
+						                </div>
+						            </div>
+						            <br>
+
+						            <div class="row">
+						                <div class="col-md-3">
+						                	<strong class="text-dark">{{ request_form.contact_person.label|title }}</strong>
+						                </div>
+						                <div class="col-md-9">{{ request_form.contact_person }}</div>
+						            </div>
+						            <br>
+
+						            <div class="row">
+						                <div class="col-md-3">
+						                	<strong class="text-dark">{{ request_form.contact_email.label|title }}</strong>
+						                </div>
+						                <div class="col-md-9">{{ request_form.contact_email }}</div>
+						            </div>
+						            <br>
+
+						            <div class="row">
+						                <div class="col-md-3">
+						                	<strong class="text-dark">{{ request_form.phone_number.label|title }}</strong>
+						                </div>
+						                <div class="col-md-9">{{ request_form.phone_number }}</div>
+						            </div>
+						            <br>
+								</div>
+							{% else %}
+							<!-- photo news request form -->
+								<div class="panel-body">
+									<div class="row">
+						                <div class="col-md-4">
+						                	<strong class="text-dark">
+						                		Name &amp; Type of Event
+						                	</strong>
+						                </div>
+						                <div class="col-md-8">
+						                	<input type="text" name="name_of_event" class="form-control no-border-radius border-thick" placeholder = "Eg. Annual General Reunion" required/>
+						                </div>
+						            </div>
+						            <br>
+
+						            <div class="row">
+						                <div class="col-md-4">
+						                	<strong class="text-dark">Brief Description</strong>
+						                </div>
+						                <div class="col-md-8">
+						                	<textarea class="form-control no-border-radius bg-white border-thick" cols="40" id="id_brief_description" maxlength="450" name="brief_description" placeholder="Briefly describe the service you want." required="required" rows="5"></textarea>
+						                </div>
+						            </div>
+						            <br>
+
+						            <div class="row">
+						                <div class="col-md-4">
+						                	<strong class="text-dark">Do you need an experienced photo-journalist?</strong>
+						                </div>
+						                <div class="col-md-8">
+						                	<select name="need_photographer" class="form-control no-border-radius border-thick" id="id_need_a_journalist" required>
+						                		<option style="display:none;">-----</option>
+						                		<option value="yes">Yes</option>
+						                		<option value="No">No</option>
+						                	</select>
+						                </div>
+						            </div>
+						            <br>
+						            <span id="event_date_venue" class="hidden">
+						            	<div class="row">
+							                <div class="col-md-4">
+							                	<strong class="text-dark">Event Venue</strong>
+							                </div>
+							                <div class="col-md-8">
+							                	<textarea name="event_venue" class="form-control no-border-radius border-thick" id = "event_venue" ></textarea>
+							                </div>
+							            </div>
+							            <br>
+
+							            <div class="row">
+							                <div class="col-md-4">
+							                	<strong class="text-dark">Event Date</strong>
+							                </div>
+							                <div class="col-md-4">
+							                	<input type="date" name="event_date" class="form-control no-border-radius border-thick" id ="event_date" required/>
+							                </div>
+							                <div class="col-md-1">
+							                	<strong class="text-dark">Time</strong>
+							                </div>
+							                <div class="col-md-3">
+							                	<input type="time" name="event_time" class="form-control no-border-radius border-thick" id ="event_time" required/>
+							                </div>
+							            </div>
+							            <br>
+						            </span>
+
+						            <span id="upload_photo" class="hidden">
+							            <div class="panel panel-info">
+							            	<div class="panel-heading no-border-radius bg-royal text-white"> <strong>Upload Images</strong></div>
+								            <div class="row">
+								            	<br/>
+								            	<div class="col-md-12">
+								                	<div class="col-md-4">
+								                		{% include 'snippets/file_upload.html' with file_id="image_1" %}
+								                	</div>
+								                	<div class="col-md-4">
+								                		{% include 'snippets/file_upload.html' with file_id="image_2" %}
+								                	</div>
+								                	<div class="col-md-4">
+								                		{% include 'snippets/file_upload.html' with file_id="image_3" %}
+								                	</div>
+									            </div>
+									        </div>
+									        <br>
+									        <div class="row">
+									            <div class="col-md-12">
+									            	<div class="col-md-4">
+								                		{% include 'snippets/file_upload.html' with file_id="image_4" %}
+								                	</div>
+								                	<div class="col-md-4">
+								                		{% include 'snippets/file_upload.html' with file_id="image_5" %}
+								                	</div>
+								                	<div class="col-md-4">
+								                		{% include 'snippets/file_upload.html' with file_id="image_6" %}
+								                	</div>
+									            </div>
+									        </div>
+								            <br>
+								        </div>
+						            </span>
+						            <div class="row">
+						                <div class="col-md-4">
+						                	<strong class="text-dark">Contact Person</strong>
+						                </div>
+						                <div class="col-md-8">
+						                	<input type="text" name="contact_person" class="form-control no-border-radius border-thick" placeholder ="Who can we call for enquiries" required/>
+						                </div>
+						            </div>
+						            <br>
+
+						            <div class="row">
+						                <div class="col-md-4">
+						                	<strong class="text-dark">Email</strong>
+						                </div>
+						                <div class="col-md-8">
+						                	<input type="email" name="contact_email" class="form-control no-border-radius border-thick" required/>
+						                </div>
+						            </div>
+						            <br>
+
+						            <div class="row">
+						                <div class="col-md-4">
+						                	<strong class="text-dark">Phone Number</strong>
+						                </div>
+						                <div class="col-md-8">
+						                	<input type="text" name="phone_number" class="form-control no-border-radius border-thick" required/>
+						                </div>
+						            </div>
+						            <br>
+								</div>
+							{% endif %}
+							<!--  submit button  -->
+							<div class="row">
+				            	<div class="col-md-8">
+				            		<input type="hidden" name="service_type" value="{{ item }}" class="form-control no-border-radius border-thick"/>
+				            	</div>
+				            	<div class="col-md-4">
+									<input type="submit" value="Submit Request" name="submit-request" class="btn btn-easypr bg-royal text-white pull-right" />
+								</div>
+							</div>	
+						</div>
+					</form>
+					</div>
+
+				<!-- Conditional right panel -->
+					{% if item == "blogger-distribution" %}
+						<div class="col-md-3">
+							<div class="panel panel-danger hidden" id ="blog_summary_table_div">
+								<div class="panel-heading bg-danger"><b>Seleted Blogs</b></div>
+								<div class="panel-body" id="blog_summary">
+									<table  class="table table-stripped class='no-border'" id="blog_summary_table">
+										
+									</table>
+									<hr style="margin-bottom: 2px;"/>
+									<span class="pull-left">
+										<strong class="text-danger">Total:</strong>
+									</span>
+									<span class="text-danger pull-right" id="id_total_amout">
+										
+									</span>
+								</div>
+							</div>
+						</div>
+					{% else %}
+						<div class="col-md-2"></div>
+					{% endif %}
+			</div><!-- Main row end -->
+		</div><!-- Conatiner end -->
+	</section><!-- Main container end -->
+{% endblock inner_content %}
+
+
+
+
+
+{% block inline_scripts %}
+	<script type="text/javascript" src="{% static 'easypr/js/jquery.js' %}"></script>
+	<script>
+		var total_amount = 0.0;
+		$("#id_need_a_journalist").on('change', function(){
+			var option = $(this).val()
+			if (option != ""){
+				if (option == "yes"){
+					$("#event_date_venue").removeClass('hidden');
+					$("#upload_photo").addClass('hidden');
+					$("#event_venue").attr('required',true)
+					$("#event_time").attr('required',true)
+					$("#event_date").attr('required',true)
+					$("#upload_photo img").each(function(){
+						$(this).src = "";
+						$(this).trigger('reset');
+					})
+				} else {
+					$("#upload_photo").removeClass('hidden');
+					$("#event_date_venue").addClass('hidden');
+					$("#event_venue").attr('required',false)
+					$("#event_time").attr('required',false)
+					$("#event_date").attr('required',false)
+					
+				}
+			} else {
+				$("#event_date_venue").removeClass('hidden');
+				$("#upload_photo").addClass('hidden');
+				alert('select a valid option');
+			}
+		})
+
+
+
+		$("#blog-category").change(function(){
+			total_amount = 0.0;
+			$("#blog_summary_table").html(""); // empty selected blogs summary table
+			$("#id_total_amout").html('0.0'); // reset total amount
+			var selected_category = $(this).find(':selected').val();
+			$.ajax({
+			url: "{% url 'easypr_ng:get-blog-list' %}",
+			type: "GET",
+			data: {blog_category: selected_category},
+			success: function(data){
+				$("#id_blog_list").removeClass('hidden');
+				$("#cate_blog_list").html(data);
+			},
+			error: function(data){
+				$("#cate_blog_list").html('<option value="" style="color:#6734ee;">An error occured while fetching blog list! Please reload the page.</option>');	
+				}
+			});
+		})
+
+		
+		// User wants to upload images
+		$("#chk_upload_images").on('click', function(){
+			$(this).is(':checked') ? $("#id_upload_images").removeClass('hidden') : $("#id_upload_images").addClass('hidden');
+		})
+
+		$(".cls_submission_format").click(function(){
+			var selected = $(this).val();
+			if(selected == "upload_file"){
+				$("#id_content_upload").removeClass('hidden');
+				$("#id_content_textarea").addClass('hidden');
+			} else {
+				$("#id_content_upload").addClass('hidden');
+				$("#id_content_textarea").removeClass('hidden');
+			}
+		})
+
+		//  CODE FOR BLOG SELECTION SUMMARY AND PRICE DISPLAY  
+		$('body').on('click', '#cate_blog_list .selected-blog-house', function(){
+			var summary_div   =  $("#blog_summary");
+			var price = $(this).attr('price');
+			var blog  = $(this).attr('blog_name');
+			var blog_name_slug =  $(this).val();
+			var new_row = "";
+			var selected_blog  =  $(".selected-blog-house:checked").length;
+			selected_blog > 0 ? $("#blog_summary_table_div").removeClass('hidden') : $("#blog_summary_table_div").addClass('hidden');
+
+			if ($(this).is(':checked')){
+				total_amount += parseFloat(price);
+				new_row = "<tr id='id_'" + blog_name_slug + "'><td><b>" + blog + "</b></td><td> &#8358;" + price + "</td></tr>";
+				$("#blog_summary_table").append(new_row);
+				$("#id_total_amout").html("<strong class='text-danger'>&#8358;" + total_amount + "</strong>");
+				
+			} else {
+				total_amount -= parseFloat(price);
+				$("#id_total_amout").html("<strong class='text-danger'>&#8358;" + total_amount + "</strong>");
+				var id_tr_to_delete  =  "#id_" + blog_name_slug;
+				$('table#blog_summary_table tr' + id_tr_to_delete).remove();
+			}
+			$("#form_total_price").val(total_amount);
+		})
+
+	 // CODE FOR AUDIO DURATION SELECT BOX SELECTION
+	 $("#id_material_duration").on('change', function(){
+	 	var selected   =     $(this).find(':selected').val();
+	 	var message2 = "Upload a " + selected + " long audio file";
+	 	var message1 = "You'll have to Upload a " + selected + " long audio file";
+	 	if(!(selected == "empty")){
+	 		$("#id_audio_duration").html(message2);
+	 		$("#id_duration_warning").html(message1);
+	 	} else {
+	 		var error_msg = "<strong class='text-danger>Select a Valid duration</strong>";
+	 		$("#id_duration_warning").html(error_msg);
+	 		$("#id_audio_duration").html(error_msg);
+	 	}
+	 })
+
+	 //  ENSURES AUDIO ADVERT DURATION IS SELECTED BEFORE AUDIO FILE UPLOAD
+	 $("#id_audio_file").on('click',function(){
+	 	var selected_duration = $("#id_material_duration").find(':selected').val().split(" ")[0];
+	 	if (selected_duration === "empty"){
+	 		var msg = "You have to select an advert duration to proceed.";
+	 		alert(msg);
+	 		$("#id_duration_warning").html("<strong class='text-danger'>Select A duration to proceed </strong>");
+	 		$("#id_duration_warning").focus();
+	 		return false;
+	 	}
+	 })
+
+
+	 $("#id_audio_file").on('change', function(e){
+	 	var audio_url   =    $("#id_audio_file");
+	 	// alert(audio_url[0].name);
+	 	var selected_duration = $("#id_material_duration").find(':selected').val().split(" ")[0];
+	 	var audio_file = e.currentTarget.files[0];
+	 	var ext = audio_file.type.split('/')[1];
+	 	var max_file_size  = 5.00;
+	 	
+	 	var file_size_mb   = parseFloat(audio_file.size / 1048576).toFixed(2); // 1mb = 1048576 bytes, to 2 decimal places
+	 	if (ext === "mp3" || ext === "wav") {
+	 		// check and compare file duration here
+	 		var file_duration = get_audio_file_duration(audio_file); // get file duration
+	 		alert(selected_duration);
+	 	} else {
+	 		var msg =  ext + " is not a supported audio file type. \n Only *.mp3 and *.wav files are allowed";
+	 		alert(msg);
+	 		return false;
+	 	} if (file_size_mb > max_file_size){
+	 		var msg = "File size exceeds " + max_file_size + "MB. Please select a smaller file";
+	 		$("#file_size_info").html(msg);
+	 		alert(msg);
+	 		return false;
+	 	}
+	 })
+
+	</script>
+	
+
+{% endblock inline_scripts %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

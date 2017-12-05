@@ -1,0 +1,35 @@
+{% load base_custom_filters %}
+{% load staticfiles %}
+
+<script>
+	$(".default").addClass('active');
+</script>
+				
+{% for item in post_list %}
+	<div class="row post_strip text-dark {% if forloop.counter|is_even %} bg-even {% endif %}">
+		<div class="col-md-2">
+			<img class="thumbnail" src="{% if item.featured_image %}{{ item.featured_image }}{% else %}{% static 'easypr/images/icons/no-image-sm.png' %} {% endif %}" alt="easyPR Nigeria">
+		</div>
+		<div class="col-md-8">
+
+			<strong class="text-primary"><a href="#" post_id = "{{ item.pk }}" {% if item.status.lower == "new" %} class="preview-post" {% endif %}>{{ item.post_title|title }}</strong><br>
+			<small class="text-justify">{{ item.post_body|truncatewords:35 }}</small><br>
+			<div class="bg-royal text-white" style="padding:3px;"><small>Selected Media:</small> <strong>{{ item.get_media_houses|title }}</strong></div><br>
+		</div>
+		<div class="col-md-2 text-center" style="padding-top: 50px;">
+			{% if item.status.lower == "new" %}
+				<p><a href="#" post_id = "{{ item.pk }}" title="preview" class="preview-post"><i class="fa fa-search" ></i></a>
+					
+				<a href="#" post_id = "{{ item.pk }}" title="Send to media house" class="send-to-media"><i class="fa fa-newspaper-o space-left"></i></a>
+				
+				<a href="#" post_id = "{{ item.pk }}" title="Send to Ext Editor" class="send-to-ext-editor"><i class="fa fa-external-link space-left" ></i></a>
+				
+				<a href="#" post_id = "{{ item.pk }}" class="text-danger reject-post" title="Reject"><i class="fa fa-trash space-left"></i></a></p>
+			{% elif item.status.lower == "sent_to_external_editor" or item.status.lower == "processing" %}
+				<a href="#" post_id = "{{ item.pk }}" class="publish" title="publish post"><i class="fa fa-clipboard space-left" ></i></a><br>
+			{% endif %}
+		</div>
+	</div>
+{% empty %}
+	<p>No post found .</p>
+{% endfor %}

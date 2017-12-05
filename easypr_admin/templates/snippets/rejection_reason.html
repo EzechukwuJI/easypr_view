@@ -1,0 +1,26 @@
+{% load humanize %}
+{% load staticfiles %}
+
+	<div id="{{ modal_Id }}" class="modal fade">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content no-border-radius">
+	      <div class="modal-header bg-warning">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: #000000;">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	        <h5 class="modal-title">Enter Reason For Rejection</h5>
+	      </div>
+	      <form action="{% url 'easypr_admin:reject-post' %}" method="post">
+			{% csrf_token %}
+			<input type="hidden" name="post_id" id="reject_post_id">
+	      	<div class="modal-body text-center text-black" id="id_media_contacts">
+	      		<textarea class="form-control" rows="8" id="id_reason" maxlength="300" name="rejection_reason"> </textarea>
+	      	</div> <!-- modal body ends -->
+	        <div class="modal-footer">
+				<input type="submit" class="pull-right btn-danger" id="id_save_changes" value="Reject">
+				<a href="{{ previous_page }}" data-toggle="modal" data-dismiss = "modal" id="id_discard_changes" class="btn pull-left text-success"><strong>Cancel</strong></a>
+		    </div>
+		  </form>
+	    </div><!-- /.modal-content -->
+	  </div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->

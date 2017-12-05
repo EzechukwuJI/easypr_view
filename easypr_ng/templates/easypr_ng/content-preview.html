@@ -1,0 +1,111 @@
+{% extends 'easypr_general/base.html' %}
+{% load staticfiles %}
+
+{% block title %}preview uploaded content{% endblock title %}
+{% block inner_content %}
+	<!-- <div id="banner-area" class="banner-area" style="background-image:url({% static 'easypr/images/banner/banner2.jpg' %})">
+		<div class="banner-text">
+     		<div class="container">
+	        	<div class="row">
+	        		<div class="col-xs-12 text-center">
+	        			<div class="banner-heading">
+	        				<h1 class="banner-title title-border-left">Preview Your Content</h1>
+	        				<!-- <p class="banner-desc">caption here</p> 
+	        			</div>
+	        		</div> --><!-- Col end 
+	        	</div><!-- Row end 
+       		</div><!-- Container end
+    	</div><!-- Banner text end 
+	</div><!-- Banner area end --> 
+
+	<section id="main-container" class="main-container">
+		<div class="container">
+			<div class="row">
+				<!-- <h3>Content Preview Section</h3> -->
+				<!-- <hr style="margin:0px;" /> -->
+				<div class="col-md-1"></div>
+				<div class="col-md-10">
+					<div class="panel">
+						<div class="panel-heading" style="padding-left: 0px;"><h4 class="text-royal" style="padding: 2px; margin-left: 0px; margin-bottom: 2px;">PREVIEW YOUR SUBMISSION</h4></div>
+						<hr style="margin-top: 0px;">
+						<!-- <div class="well well-default no-border-radius"> -->
+						<small>Post Title</small>
+						<h4 style="font-family:verdana; padding-left: 0px;"> {{ post.post_title|title }} </h4>
+						<div class="gap-10"></div>
+						<div class="row well well-warning">
+							<div class="col-md-6">
+								<strong>PLATFORM:  </strong> {{ post.platform }}<br/>
+								<strong>SECTOR:  </strong> {{ post.sector }}<br/>
+								<strong>PERSON/POSITION:  </strong> {{ post.person_to_quote|title }} - {{ post.persons_position|title  }}
+							</div>
+							<div class="col-md-6">
+								<strong>SELECTED MEDIA: </strong> {{ post.get_media_houses }} <br/>
+								<strong>SELECTED CATEGORY: </strong> {{ post.press_material }}
+							</div>
+						</div>
+						{% if post.has_image %}
+							<div class="gap-10"></div>
+							<div class="row well well-default bg-gray text-white">
+								{% for image in post.get_images %}
+									<div class="col-md-3">
+										<img src="{{ image.image.url }}" class="thumbnail" style="height:165px; width:185px;" alt="Easypr Nigeria" /> <br/>
+										<span>{{ image.caption }}</span>
+									</div>
+								{% endfor %}
+							</div>
+						{% endif %}
+						<div class="gap-10"></div>
+						<div class="row well well-info no-border-radius bg-white text-justify">
+							{{ post.post_body }}
+						</div>
+						<hr/>
+						<!-- <div class="panel-footer bg-royal"> -->
+						<div class="row no-border-radius bg-white">
+							<a href="{% url 'easypr_ng:payment' transaction_id=post.transaction_id %}" class="btn btn-primary pull-right"> Proceed </a>
+							<a href="{{ previous_page }}" class="btn btn-primary pull-left"> Back </a>
+						</div>
+						<!-- </div> -->
+					</div>
+				</div>
+			</div><!-- Content row -->
+		</div><!-- Conatiner end -->
+	</section><!-- Main container end -->
+{% endblock inner_content %}
+
+
+
+{% block inline_scripts %}
+<script>
+	function fetch_media(select_input_id, div_to_populate){	
+		$("#" + div_to_populate).html('<option value="" style="color:green;">Fetching media ...</option>');
+		var platform      = $("#" + select_input_id).find(':selected').attr('value');
+		if (platform.length == 0){
+			alert ('select a media platform');
+			return false;
+		}
+		var csrf_token = $('input[name="csrfmiddlewaretoken"]').val();
+		function csrfSafeMethod(method){
+			// these HTTP methods do not require CSRF protection
+			return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+		}
+		$.ajaxSetup({
+			beforeSend: function(xhr, settings){
+				if (!csrfSafeMethod(settings.type) && !this.crossDomain){
+					xhr.setRequestHeader("X-CSRFToken", csrf_token);
+				}
+			}
+		});
+		$.ajax({
+			url: "{% url 'easypr_ng:get-media-houses' %}",
+			type: "POST",
+			data: {media_platform: platform, csrfmiddlewaretoken: csrf_token},
+			success: function(data){
+				$("#" + div_to_populate).html(data);
+			},
+			error: function(data){
+				$("#" + div_to_populate).html('<option value="" style="color:#6734ee;">An error occured while fetching media! Please reload the page.</option>');	
+			}
+		})
+	}
+</script>
+{% endblock inline_scripts %}

@@ -1,0 +1,28 @@
+{% load base_custom_filters %}
+
+<p style="font-family: arial; font-size: 14px;">
+We have received your submission with the following details; </p>
+<blockquote style="background-color: #e8e8e8; border: thin solid #d8d8d8;padding: 0px 7.5px 7.5px 7.5px; border-radius:5px;">
+	<table width="100%" style="color: #444444; background-color: #ffffff;">
+		<tr class = "border">
+			<td colspan = 3 style="background-color: #012e5b; padding: 15px 15px; color: #ffffff; font-size: 18px; font-weight: bold; font-family: arial; text-align: center;"><strong>Reference Number </strong> &nbsp; &nbsp;#{{ post.transaction_id }}</td>
+		</tr>
+		<tr style="font-family: arial; font-size: 14px;">
+			<td style="padding: 15px 10px; border-top: thin solid #e8e8e8; border-bottom: thin solid #e8e8e8;"><strong>Date of Submission: </strong></td>
+			<td style="padding: 15px 10px; border-top: thin solid #e8e8e8; border-bottom: thin solid #e8e8e8;">{{ post.date_posted }}</td>
+		</tr>
+		<tr style="font-family: arial; font-size: 14px;">
+			<td style="padding: 15px 10px;  border-bottom: thin solid #e8e8e8;"><strong>Media House: </strong></td>
+			<td style="padding: 15px 10px;  border-bottom: thin solid #e8e8e8;">{{ post.get_media_houses|title }}</td>
+		</tr>
+		<tr style="font-family: arial; font-size: 14px;">
+			<td style="padding: 15px 10px;  border-bottom: thin solid #e8e8e8;"><strong>Sector:</strong></td>
+			<td style="padding: 15px 10px;  border-bottom: thin solid #e8e8e8;">{{ post.sector.name|title }}</td>
+		</tr>
+	</table>
+</blockquote>
+<p style="font-family: arial; font-size: 14px;">You will get a notification when your submission is published on the selected media houses.</p>
+
+
+
+

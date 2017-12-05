@@ -1,0 +1,222 @@
+{% extends 'easypr_general/base.html' %}
+{% load staticfiles %}
+{% load base_custom_filters %}
+
+{% block title %}Dashboard{% endblock title %}
+{% block inner_content %}
+	<section id="main-container" class="main-container">
+		<div class="container">
+			<div class="dashboard">
+				<div class="row">
+					<div class="col-md-3">
+						<div class="left-nav">
+							<h5 class="bg-royal text-white" style="padding: 8px; margin-bottom: 0px;">DASHBOARD
+								<button type="button" class="pull-right bg-royal text-white dashboard-toggle" data-toggle="collapse" data-target=".dashboard-nav">
+							        <span class="sr-only">Toggle navigation</span>
+							        <i class="fa fa-eye" aria-hidden="true"></i>
+				    			</button>
+				    		</h5>
+							<ul class = "unstyled dashboard-nav" style="background-color: #025cb7;">
+								<li><i class="fa fa-clipboard" aria-hidden="true"></i> &nbsp; <a href="{% url 'easypr_admin:admin-dashboard' 'submissions' %}">Submissions</a></li>
+								<li><i class="fa fa-database" aria-hidden="true"></i> &nbsp;<a href="{% url 'easypr_admin:admin-dashboard' 'user-manager' %}">User Manager</a></li>
+								<li><i class="fa fa-line-chart" aria-hidden="true"></i> &nbsp;<a href="{% url 'easypr_admin:admin-dashboard' 'content-manager' %}">Content Manager</a></li>
+								<li><i class="fa fa-user" aria-hidden="true"></i> &nbsp;<a href="{% url 'easypr_admin:admin-dashboard' 'blog-manager' %}">Blog Manager</a></li>
+								<li><i class="fa fa-credit-card" aria-hidden="true"></i> &nbsp;<a href="{% url 'easypr_admin:admin-dashboard' 'affiliate-manager' %}">Affiliate Manager</a></li>
+								<li><i class="fa fa-cog" aria-hidden="true"></i> &nbsp;<a href="{% url 'easypr_admin:admin-dashboard' 'analytics' %}">Analytics</a></li>
+								<li><i class="fa fa-cog" aria-hidden="true"></i> &nbsp;<a href="{% url 'easypr_admin:admin-dashboard' 'accounts-manager' %}">Accounts Manager</a></li>
+								<li class="login-list">
+								<div class="gap-20"></div>
+									<a href="{% url 'general:logout' %}" class="btn btn-easypr bg-royal"><i class="fa fa-sign-out" aria-hidden="true"></i> &nbsp; Logout</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-md-9" style="padding: 0px; ">
+						<div class="row" role="search form">
+							<div class="col-md-6 pull-right">
+							<form>
+								<div class="input-group">
+									<input type="text"  class="form-control"placeholder="search by transaction No." name="search-item">
+                					<span class="input-group-addon">
+                						<a href="#" class="btn bg-royal text-white" >search </a> 
+                						<!-- <input type="submit" class="btn bg-royal text-white" value="Search" style="margin: none !important;" name="submit-search"> -->
+                					</span>
+                				</div>
+
+								<!-- <div class="col-sm-9">
+									<input type="text"  class="form-control"placeholder="search by transaction No." name="search-item">
+								</div>
+								<div class="col-sm-3">
+									<input type="submit" class="btn btn-easypr" value="Search" name="submit-search">
+								</div> -->
+							</form>
+							</div>
+						</div>
+						<div class="row">
+							{% if section_title == "submissions" %}
+								<h5>{{ section_title|upper|strip_chars:"-" }}</h5>
+								<ul class="nav nav-tabs" style="border-bottom: thin solid #b3b3b3; ">
+									<li class="bundle-tab-spaced default" onclick="load_page('submissions','all','id_inner_content')">
+										<a data-toggle="tab" href="#">All</a>
+									</li>
+									<li class="bundle-tab-spaced" onclick="load_page('submissions','new','id_inner_content')">
+										<a data-toggle="tab" href="#">New</a>
+									</li>
+									<li class="bundle-tab-spaced" onclick="load_page('submissions','processing','id_inner_content')">
+										<a data-toggle="tab" href="#">Processing</a>
+									</li>
+									<li class="bundle-tab-spaced" onclick="load_page('submissions','sent_to_ext_editor','id_inner_content')">
+										<a data-toggle="tab" href="#">Sent to Ext Editor</a>
+									</li>
+									<li class="bundle-tab-spaced" onclick="load_page('submissions','published','id_inner_content')">
+										<a data-toggle="tab" href="#">Published</a>
+									</li>
+									<li class="bundle-tab-spaced" onclick="load_page('submissions','rejected','id_inner_content')">
+										<a data-toggle="tab" href="#">Rejected</a>
+									</li>
+								</ul>
+							{% elif section_title == "user-manager" %}
+								<h5>{{ section_title|upper|strip_chars:"-" }}</h5>
+								<ul class="nav nav-tabs" style="border-bottom: thin solid #b3b3b3; ">
+									<li class="bundle-tab-spaced default" onclick="load_page('users','staff','id_inner_content')" onclick="load_page()"><a data-toggle="tab" href="#">Staff</a></li>
+									<li class="bundle-tab-spaced" onclick="load_page('users','clients','id_inner_content')"><a data-toggle="tab" href="#">Clients</a></li>
+									<li class="bundle-tab-spaced" onclick="load_page('users','media contacts','id_inner_content')"><a data-toggle="tab" href="#">Media Contacts</a></li>
+								</ul>
+							{% else %}
+								<h5 class="section_title">{{ section_title|strip_chars:"-"}}</h5>
+							{% endif %}
+						</div>
+
+						<div class="gap-20"></div>
+
+						<div class="row inner-content" id="id_inner_content">
+							{% include inset_template %}
+						</div> <!-- ends inner-content -->
+					</div> <!-- ends right panel -->
+				</div>
+			</div>
+		</div><!-- Conatiner end -->
+	</section><!-- Main container end -->
+{% endblock inner_content %}
+
+
+{% block modal %}
+	{% include 'snippets/post-preview.html' with modal_Id='preview-edit-post' %}
+	{% include 'snippets/media-contacts-modal.html' with modal_Id='select_media_contact' %}
+	{% include 'snippets/rejection_reason.html' with modal_Id='rejection_reason' %}
+	{% include 'snippets/publish_post.html' with modal_Id='post_urls' %}
+{% endblock modal %}
+
+
+{% block inline_scripts %}
+	<script type="text/javascript" src="{% static 'easypr/js/jquery.js' %}"></script>
+	<script>
+		function load_page(content_type, option, div_to_populate){
+			var content = content_type;
+			var content_div  =   $("#" + div_to_populate);
+			$.ajax({
+				url:  "{% url 'easypr_admin:load-content-page' %}",
+				type: "GET",
+				data: {content:content, option:option},
+				success: function(data){
+					content_div.html(data);
+				},
+				error: function(){
+					content_div.html("Error Loading page, please try again");
+				}
+			})
+		}
+	</script>
+	<script>
+		$('body').on('click', '.preview-post', function(){
+			var post_id = $(this).attr('post_id');
+			$.ajax({
+				url:  "{% url 'easypr_admin:fetch-post' %}",
+				type: "GET",
+				data: {post_id:post_id, action:'preview'},
+				success: function(data){
+					// alert(data.post_body);
+					$("#id_post_title").val(data.post_title);
+					$("#id_post_body").val(data.post_body);
+					$("#id_post_id").val(data.pk);
+					$("#is_edited").val(0);
+					$("#preview-edit-post").modal('show');
+				},
+				error: function(){
+					alert('failed ');
+				}
+			})
+		})
+	</script>
+
+	<script>
+		$('body').on('click', '.send-to-media', function(){
+			var post_id = $(this).attr('post_id');
+			$.ajax({
+				url:  "{% url 'easypr_admin:fetch-post' %}",
+				type: "GET",
+				data: {post_id:post_id, action:'send_to_media'},
+				success: function(data){
+					$("#id_media_contacts").html(data);
+					$("#active_post_id").val(post_id);
+					$("#select_media_contact").modal('show');
+				},
+				error: function(){
+					alert('failed ');
+				}
+			})
+		})
+	</script>
+
+	<script>
+		$('body').on('click', '.publish', function(){
+			var post_id = $(this).attr('post_id');
+			$("#publish_post_id").val(post_id);
+			$("#post_urls").modal('show');
+		})
+
+		$('body').on('click','#add_url_field', function(){
+	        var newfield = document.createElement('div');
+	        newfield.innerHTML = "<input type = 'text' name='post_url[]' class='form-control' placeholder = 'Enter media url. eg. http://vanguardngr.com/new-topic-here' /><br/>";
+	        document.getElementById('id_post_urls').appendChild(newfield);
+	    })
+	</script>
+
+
+	<script>
+	// check if changes have been made to post title or body
+		count = 0;
+		$('body').on('keypress', '#id_post_title, #id_post_body', function(){
+			count++;
+			$("#is_edited").val(count);
+			if (parseInt(count) > 0){
+				$("#is_edited").val("edited");
+			}	
+		})
+
+		$("#id_discard_changes").on('click', function(){
+			if ($("#is_edited").val() == "edited"){
+				return confirm("Changes you made will be lost. Are you sure you want to close this page?");
+			}
+		})
+
+		$("#id_save_changes").on('click', function(){
+			if ($("#is_edited").val() == "edited"){
+				return confirm("Save changes to this post?");
+			}
+		})
+
+		$('body').on('click', '#id_select_all', function(){
+			$("#id_select_all").is(':checked') ? $(".media_contact").attr('checked', true) : $(".media_contact").attr('checked', false);
+		})
+
+
+		$('body').on('click', '.reject-post', function(){
+			var post_id = $(this).attr('post_id');
+			$("#reject_post_id").val(post_id);
+			$("#rejection_reason").modal('show');
+		})
+
+		
+	</script>
+{% endblock inline_scripts %}

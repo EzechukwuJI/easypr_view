@@ -1,0 +1,448 @@
+{% extends 'easypr_general/base.html' %}
+{% load staticfiles %}
+{% block meta_header %}
+	{{ block.super }}
+	{% if show_news_details %}
+		<meta property="og:url"                content="{{ request.build_absoulte_uri|urlencode }}" />
+		<meta property="og:type"               content="article" />
+		<meta property="og:title"              content="{{ post.post_title }}" />
+		<meta property="og:description"        content="{{ post.post_title|truncatewords:15 }}" />
+		<meta property="og:image"              content="{{ post.featured_image }}" />
+	{% endif %}
+{% endblock meta_header %}
+
+{% block title %} Newsroom {% endblock title %}
+
+{% block inner_content %}
+	<div id="banner-area" class="banner-area" style="background-image:url({% static 'easypr/images/banner/Newsroom.jpg' %})">
+		<div class="banner-text">
+     		<div class="container">
+	        	<div class="row">
+	        		<div class="col-xs-12">
+	        			<div class="banner-heading">
+	        				<h1 class="banner-title title-border-left hidden">News Room</h1>
+	        				<p class="banner-desc hidden">Aggregated News from around the world</p>
+	        			</div>
+	        		</div><!-- Col end -->
+	        	</div><!-- Row end -->
+       	</div><!-- Container end -->
+    	</div><!-- Banner text end -->
+	</div><!-- Banner area end --> 
+
+
+	<section id="main-container" class="main-container">
+		<div class="container">
+			<div class="row">
+				{% if show_news_list %}
+					<!-- TILE STYLE NEWS ITEM DISPLAY -->
+					<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+						{% for article in articles %}
+							<div class="col-sm-4">
+							<div style="border: thin solid #ffffff;border-radius: 0px; margin-top:5px; padding:8px; display:block; position:relative; text-align: left; box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 2px 4px 0 rgba(0, 0, 0, 0.19);">
+								<div class="latest-post">
+								{% if article.featured_image %}
+									<div class="latest-post-media">
+										<a href="{% url 'easypr_ng:news-details' article.pk article.title_slug %}">
+											<img class="img-responsive" src="{{ article.featured_image }}" alt="EasyPR Nigeria News">
+										</a>
+									</div>
+								{% endif %}
+									<div class="post-body">
+										<h4 class="post-title">
+											<a href="{% url 'easypr_ng:news-details' article.pk article.title_slug %}">{{ article.post_title|title }}</a>
+											<span class="post-item-date">
+												<br/> <i class="fa fa-clock-o"></i> <small>{{ article.date_posted|date }}</small>
+											</span>
+										</h4>
+										<div class="post-text">
+											<p>{{ article.post_body|truncatewords:35 }}</p>
+										</div>
+									</div>	
+									<a class="learn-more" href="{% url 'easypr_ng:news-details' article.pk article.title_slug %}">
+					         			<i class="fa fa-caret-right"></i> Read More
+			                  		</a>
+								</div><!-- Latest post end -->
+							</div>
+						</div><!-- 3rd post col end -->
+
+						<!-- LIST STYLE NEWS ITEM DISPLAY -->
+							<div class="post hidden">
+								<div class="post-media post-image">
+									<img src="{{ article.featured_image }}" class="img-responsive" alt="EasyPR Nigeria newsroom">
+									<span class="post-meta-date"><i class="fa fa fa-clock-o"></i> {{ article.date_posted|date }}</span>
+								</div>
+								<div class="post-body">
+									<div class="entry-header">
+							 			<div class="post-meta">
+											<span class="post-author">
+		   									Posted By <a href="#">{{ article.posted_by.get_full_name|title }}</a>
+		   								</span>
+											<span class="post-cat">
+		   									Posted In: <a href="#">{{ article.sector }}</a>
+		   								</span>
+											<span class="post-comment">{{ article.comment_set.count }}<a href="#" class="comments-link">Comment{{ article.comment_set.count|pluralize:"s" }}</a></span>
+										</div>
+										<h2 class="entry-title">
+							 				<a href="{% url 'easypr_ng:news-details' article.pk article.title_slug %}">{{ article.post_title }}</a>
+							 			</h2>
+									</div><!-- header end -->
+									<div class="entry-content">
+										<p>{{ article.post_body|truncatewords:75 }} </p>
+									</div>
+									<div class="post-footer">
+										<a href="{% url 'easypr_ng:news-details' article.pk article.title_slug %}" class="btn btn-primary">Continue Reading</a>
+									</div>
+								</div><!-- post-body end -->
+							</div><!-- 1st post end -->
+						{% empty %}	
+							<p> No articles at this time </p>
+						{% endfor %}
+						<div class ="pagination" style="padding-left:20px;">
+			                <span >
+			                    {% if articles.has_previous %}
+			                          <a href="?page={{ articles.previous_page_number }}" >Previous</a>
+			                      {% endif %}
+
+			                     {% for page in articles.paginator.page_range %}
+			                      {% ifequal page articles.number %}
+			                        <span class="current"><b>{{ page }}</b></span>
+			                      {% else %}
+			                        <a href="?page={{ page }}" class="page_nav"> {{ page }}</a>
+			                      {% endifequal %} 
+			                     {% endfor %}
+
+			                     {% if articles.has_next %}
+			                          <a href="?page={{ articles.next_page_number }}" class="">Next</a>
+			                    {% endif %}
+			                </span>
+			            </div>
+					</div><!-- Content Col end -->
+				{% endif %}
+
+
+
+
+				<!--  display single post -->
+				{% if show_news_details %}
+					<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+					<div class="post-content">
+						<div class="post-media post-image">
+							<img src="{{ post.featured_image }}" class="img-responsive" alt="">
+							<span class="post-meta-date"><i class="fa fa fa-clock-o"></i> {{ post.date_posted|date }}</span>
+						</div>
+
+						<div class="post-body">
+							<div class="entry-header">
+					 			<div class="post-meta">
+									<span class="post-author">
+   									Posted By <a href="#">{{ post.posted_by.get_full_name|title }}</a>
+   								</span>
+									<span class="post-cat">
+   									Posted In: <a href="#">{{ post.sector|title }}</a>
+   								</span>
+									<span class="post-comment">{{ post.comment_set.count }}<a href="#" class="comments-link">Comment{{ post.comment_set.count|pluralize:"s" }}</a></span>
+								</div>
+								<h2 class="entry-title">
+					 				<a href="#">{{ post.post_title }}</a>
+					 			</h2>
+							</div><!-- header end -->
+
+							<div class="entry-content">
+								{{ post.post_body }}
+							</div>
+
+							<div class="tags-area clearfix">
+	   						<div class="share-items pull-right">
+	   							<ul class="post-social-icons unstyled">
+	   								<li class="social-icons-head">Share:</li>
+	   								<li>
+	   									<div class="fb-share-button" data-href="{{ request.build_absoulte_uri|urlencode }}" data-layout="button_count"></div>
+									</li>
+	   								<li><a href="#" class="g-plus" data-action="share" data-annotation="none"></a></li>
+	   								<li>
+	   									<a class="twitter-share-button" href="https://twitter.com/intent/tweet?via=easyprng" target="self"><i class="fa fa-twitter"></i></a>
+	   								</li>
+	   								<li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+	   							</ul>
+	   						</div>
+							</div>							
+						</div><!-- post-body end -->
+					</div><!-- post content end -->
+
+
+
+
+
+
+
+
+
+					<div id="disqus_thread"></div>
+					<script>
+						/**
+						*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+						*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+						
+						var disqus_config = function () {
+						this.page.url = "{{ request.build_absolute_uri|urlencode }}";  // Replace PAGE_URL with your page's canonical URL variable
+						this.page.identifier = "{{ request.build_absolute_uri|urlencode }}"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+						};
+						
+						(function() { // DON'T EDIT BELOW THIS LINE
+						var d = document, s = d.createElement('script');
+						s.src = 'https://http-easypr-ng.disqus.com/embed.js';
+						s.setAttribute('data-timestamp', +new Date());
+						(d.head || d.body).appendChild(s);
+						})();
+					</script>
+					<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                                
+
+
+					<!-- Post comment start -->
+					<div id="comments" class="comments-area hidden">
+						<h3 class="comments-heading">{{ post.comment_set.all.count }} Comment{{ post.comment_set.all.count|pluralize:"s" }}</h3>
+
+						<ul class="comments-list" id="post_comments">
+						{% for comment in post.comment_set.all %}
+							<li>
+								<div class="comment">
+									<img class="comment-avatar pull-left" alt="" src="images/news/avator2.jpg">
+									<div class="comment-body">
+										<div class="meta-data">
+											<span class="comment-author">{{ comment.posted_by.get_full_name|title }}</span>
+											<span class="comment-date pull-right">{{ comment.date_posted }}</span>
+										</div>
+										<div class="comment-content">
+										<p>{{ comment.comment }}</p></div>
+										<div class="text-left">
+											<a class="comment-reply" id="showbox_{{ forloop.counter }}" onclick='return show_reply_box("div_reply_{{ forloop.counter }}", "showbox_{{ forloop.counter }}")' style="cursor:pointer;">Reply</a>
+											<br/>
+											<div class="row hidden" style="background-color:#F5F5F5; border: solid thin #b6b6b6;" id="div_reply_{{ forloop.counter }}">
+												<div class="reply-comment"  >
+													<textarea class="form-control no-norder-radius bg-white" name="comment_reply" id="id_reply_{{ forloop.counter }}"></textarea>
+													<br/>
+													<a class="btn btn-mini pull-right" id="post_reply_{{ forloop.counter }}" onclick='return post_reply({{ comment.pk}},"id_reply_{{ forloop.counter }}","div_reply_{{ forloop.counter }}","showbox_{{ forloop.counter }}","comment_replies_{{comment.pk}}")'>Reply</a>
+												</div>
+											</div>
+											<br/>
+											<!-- <br/> -->
+										</div>	
+									</div>
+								</div><!-- Comments end -->
+
+								<ul class="comments-reply" id="comment_replies_{{comment.pk}}">
+									{% for reply in comment.commentreply_set.all %}
+										<li>
+											<div class="comment">
+												<img class="comment-avatar pull-left" alt="" src="">
+												<div class="comment-body">
+													<div class="meta-data">
+														<span class="comment-author">{{ reply.posted_by.get_full_name|title }}</span>
+														<span class="comment-date pull-right">{{ reply.date_posted|date }}</span>
+													</div>
+													<div class="comment-content">
+													<p>{{ reply.reply }}</p></div>
+													<!-- <div class="text-left">
+														<a class="comment-reply" href="#">Reply</a>
+													</div> -->	
+												</div>
+											</div><!-- Comments end -->
+										</li>
+									{% endfor %}
+								</ul><!-- comments-reply end -->
+							</li><!-- Comments-list li end -->
+						{% endfor %}
+						</ul><!-- Comments-list ul end -->
+					</div><!-- Post comment end -->
+					<div class="comments-form border-box hidden">
+						<h3 class="title-normal">Add a comment</h3>
+						<form role="form" >
+							{% csrf_token %}
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<textarea class="form-control required-field" id="id_comment" placeholder="Your Comment" rows="8" required></textarea>
+									</div>
+								</div><!-- Col 6 end -->
+								<div class="col-md-6">
+									<div class="form-group">
+										<input class="form-control" name="name" id="id_who" value="{{ request.user.get_full_name|title }}" placeholder="Your Name" type="hidden" readonly>
+									</div>
+
+									<div class="form-group">
+										<input class="form-control" name="email" id="id_who_email" value="{{ request.user.email }}" placeholder="Your Email" type="hidden" readonly>
+									</div>
+
+									<div class="form-group">
+										<input class="form-control" value ="www."placeholder="Your Website" id="id_who_website" type="hidden" required>
+									</div>
+
+								</div><!-- Col 6 end -->
+							</div><!-- Form row end -->
+							<div class="clearfix">
+								<a class="btn btn-primary" id="submit_comment" onclick='return post_comment("{{ post.pk }}")'>Post Comment</a> 
+							</div>
+						</form><!-- Form end -->
+					</div><!-- Comments form end -->
+				</div><!-- Content Col end -->
+			{% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				<!-- Sidebar right  -->
+				<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+
+					<div class="sidebar sidebar-right">
+						<div class="widget recent-posts">
+							<h3 class="widget-title">Recent Posts</h3>
+							<ul class="unstyled clearfix" style="height: 300px; overflow-y: scroll;overflow-x: hidden;">
+								{% for post in recent_posts %}
+				               		<li>
+					                    <div class="posts-thumb pull-left"> 
+					                    	<a href="{% url 'easypr_ng:news-details' post.pk post.title_slug %}"><img alt="img" src="{{ post.featured_image }}"></a>
+					                    </div>
+					                    <div class="post-info">
+					                        <h4 class="entry-title">
+					                        	<a href="{% url 'easypr_ng:news-details' post.pk post.title_slug %}">{{ post.post_title|title }}</a>
+					                        </h4>
+											<span class="post-date">{{ post.date_posted|date }}</span>
+					                    </div>
+					                    <div class="clearfix"></div>
+				                    </li><!-- 1st post end-->
+			                    {% endfor %}
+		                    </ul>
+						</div><!-- Recent post end -->
+						<div class="widget">
+							<h3 class="widget-title">Filter by Categories</h3>
+							<ul class="arrow nav nav-tabs nav-stacked" style="height: 300px; overflow-y: scroll;overflow-x: hidden;">
+							  {% for sector in sectors %}
+				                  <li><a href="{% url 'easypr_ng:newsroom-cat-view' sector.name_slug %}">{{ sector }}</a></li>
+				              {% endfor %}
+			              	</ul>
+						</div><!-- Categories end -->
+				</div><!-- Sidebar Col end -->
+			</div><!-- Main row end -->
+		</div><!-- Conatiner end -->
+	</section><!-- Main container end -->
+{% endblock inner_content %}	
+
+{% block inline_scripts %}
+	{{ block.super }}
+	<script src="https://apis.google.com/js/platform.js" async defer></script>
+	<script>
+		function post_comment(post_id){
+			var comment   =     $("#id_comment").val();
+			var posted_by = 	$("#id_who").val();
+			var email     =  	$("#id_who_email").val();
+			var website   =   	$("#id_who_website").val();
+			var csrf_token  =   $('input[name="csrfmiddlewaretoken"]').val();
+
+			$.ajax({
+				type:"POST",
+				url:"{% url 'easypr_ng:post-comment' %}",
+				data:{msg:comment,by:posted_by,email:email, website:website, post_id:post_id,csrfmiddlewaretoken:csrf_token},
+				success: function(data){
+					$("#post_comments").append(data);
+					$("#id_comment").value = "";
+					
+				},
+				error: function(data){
+
+				}
+
+			});
+
+		}
+		
+	</script>
+
+	<script>
+		function show_reply_box(box_id, btn_id){
+			var $this = $("#" + box_id);
+			var show_box = $("#" + btn_id);
+			$this.removeClass('hidden');
+			show_box.addClass('hidden');
+		}
+
+
+	function post_reply(comment_pk,reply_msg,reply_div,reply_btn,replies_list){
+		var comment_id = comment_pk;
+		var msg        = $("#" + reply_msg).val();
+		var parent_div = $("#" + reply_div);
+		var post_btn   =  $("#" + reply_btn);
+		var replies_list = $("#" + replies_list);
+		
+
+		$.ajax({
+			type: "POST",
+			url: "{% url 'easypr_ng:post-reply' %}",
+			data:{msg:msg, comment_id:comment_id },
+			success: function(data){
+				parent_div.addClass('hidden');
+				post_btn.removeClass('hidden');
+				replies_list.append(data.response);
+				$("#" + reply_msg).value = "";
+			},
+			error: function(data){
+
+			}
+		})
+	}
+	</script>
+
+
+
+	<div id="fb-root"></div>
+<script>
+(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ig_NG/sdk.js#xfbml=1&version=v2.8&appId=1729775837273865";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+</script>
+
+<!-- Place this tag after the last share tag. -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/platform.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+{% endblock inline_scripts %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

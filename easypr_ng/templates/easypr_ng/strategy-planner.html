@@ -1,0 +1,48 @@
+{% extends 'easypr_general/base.html' %}
+{% load staticfiles %}
+
+{% block title %}media strategy planner{% endblock title %}
+
+{% block inner_content %}
+	<div id="banner-area" class="banner-area" style="background-image:url({% static 'easypr/images/banner/media_strategy_inside.png' %})">
+		<div class="banner-text">
+     		<div class="container">
+	        	<div class="row">
+	        		<div class="col-xs-12">
+	        			<div class="banner-heading">
+	        				<h1 class="banner-title title-border-left">EasyPR Planner</h1>
+	        				<p class="banner-desc">{{ caption }}.</p>
+	        			</div>
+	        			<div class="text-center"> <h3><strong class="text-white">Step {{ step }} of 7 </strong></h3></div>
+	        		</div><!-- Col end -->
+	        	</div><!-- Row end -->
+       		</div><!-- Container end -->
+    	</div><!-- Banner text end -->
+	</div><!-- Banner area end --> 
+	<section id="main-container" class="main-container">
+		<div class="container">
+			<div class="row text-center">
+				<div class="col-md-1"></div>
+				<div class="col-md-10">
+					<form method="post" action="{% url 'easypr_ng:strategy-planner' step anon_userID  %}">
+					{% csrf_token %}
+						{% include step_template %}
+						<div class="gap-20"></div>
+						<hr/>
+						<div class="row">
+							{% if step > 1 %}
+								<div class="col-md-6">
+									<a href="" class="btn btn-info btn-lg no-border-radius" name="previous_step_{{ step }}"> <strong> Back </strong></a>
+								</div>
+							{% endif %}
+							<div class="{% if step > 1 %} col-md-6 {% else %} col-md-12 {% endif %}">
+								<button type="submit" class="btn btn-success btn-lg no-border-radius" name="submit_step_{{ step }}"> <strong> {% if step > 6 %} Continue {% else %} Next {% endif %}</strong></button>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="col-md-1"></div>
+			</div><!-- Main row end -->
+		</div><!-- Conatiner end -->
+	</section><!-- Main container end -->
+{% endblock inner_content %}
